@@ -1,6 +1,4 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -42,7 +40,10 @@ function App() {
             </>
           ) : (
             // If user is not logged in, show Login page
-            <Route path="/" element={<Login />} />
+            <>
+              <Route path="/" element={<Login />} />
+              <Route path="/dashboard" element={<Navigate to="/" />} />
+            </>
           )}
           <Route
             path="/register"
