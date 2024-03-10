@@ -3,10 +3,14 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, theme } from "antd";
 import logo from "../assets/logo.png";
 import { Content } from "antd/es/layout/layout";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ handleLogin }) => {
+  const navigate = useNavigate();
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
+    navigate("/dashboard");
+    handleLogin(values);
   };
 
   const {

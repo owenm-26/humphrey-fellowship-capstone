@@ -29,6 +29,13 @@ function App() {
     setIsLoggedIn(true);
   };
 
+  const handleLogin = (values) => {
+    setProfile(values);
+    setUser(values.username);
+    setPwd(values.password);
+    setIsLoggedIn(true);
+  };
+
   return (
     <>
       <Router>
@@ -41,7 +48,7 @@ function App() {
           ) : (
             // If user is not logged in, show Login page
             <>
-              <Route path="/" element={<Login />} />
+              <Route path="/" element={<Login handleLogin={handleLogin} />} />
               <Route path="/dashboard" element={<Navigate to="/" />} />
             </>
           )}
