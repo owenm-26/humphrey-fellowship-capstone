@@ -4,7 +4,13 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Login from "./pages/Login";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,41 +35,19 @@ function App() {
     <>
       <Router>
         <Routes>
+          {isLoggedIn ? (
+            <>
+              <Route path="/" element={<Navigate to="/dashboard" />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+            </>
+          ) : (
+            // If user is not logged in, show Login page
+            <Route path="/" element={<Login />} />
+          )}
           <Route
-            path="/"
-            element={
-              isLoggedIn ? (
-                <Dashboard />
-              ) : (
-                <Register handleRegister={handleRegister} />
-              )
-            }
-          >
-            <Route
-              path="/dashboard"
-              element={<Dashboard />}
-              //   isLoggedIn ? (
-              //     <Dashboard />
-              //   ) : (
-              //     <Register handleRegister={handleRegister} />
-              //   )
-              // }
-            ></Route>
-            <Route
-              path="/register"
-              element={<Register handleRegister={handleRegister} />}
-            />
-            <Route
-              path="*"
-              element={
-                isLoggedIn ? (
-                  <Dashboard />
-                ) : (
-                  <Register handleRegister={handleRegister} />
-                )
-              }
-            />
-          </Route>
+            path="/register"
+            element={<Register handleRegister={handleRegister} />}
+          />
         </Routes>
       </Router>
     </>
