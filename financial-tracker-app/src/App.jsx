@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [profile, setProfile] = useState({});
+
   const [user, setUser] = useState();
   const [pwd, setPwd] = useState();
   const [phone, setPhone] = useState();
@@ -20,13 +21,24 @@ function App() {
   const [business, setBusiness] = useState();
 
   const handleRegister = (values) => {
-    setProfile(values);
+    //set values to each holder
     setUser(values.username);
     setPwd(values.password);
     setPhone(values.phoneNumber);
     setBusiness(values.business);
     setEmail(values.email);
+
+    //mark as logged in
     setIsLoggedIn(true);
+
+    //set profile object
+    setProfile({
+      username: user,
+      password: pwd,
+      email: email,
+      phone: phone,
+      business: business,
+    });
   };
 
   const handleLogin = (values) => {
