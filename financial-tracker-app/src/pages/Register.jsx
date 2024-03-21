@@ -6,10 +6,34 @@ import { Content } from "antd/es/layout/layout";
 
 const Register = ({ handleRegister }) => {
   const navigate = useNavigate();
+
+  const registerUser = async (userData) => {
+    try {
+      const response = await fetch("http://localhost:3000/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message); // Show success message
+        navigate("/dashboard"); // Redirect to dashboard on successful registration
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error); // Show error message
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
   const onFinish = (values) => {
     console.log("Success:", values);
-    handleRegister(values);
-    navigate("/dashboard");
+    registerUser(values);
   };
 
   const onFinishFailed = (errorInfo) => {

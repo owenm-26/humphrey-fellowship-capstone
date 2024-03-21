@@ -27,7 +27,6 @@ async function dbWrite(credentials, userData) {
     await client.connect();
 
     const db = client.db(dbName);
-
     const usersCollection = db.collection(collectionName);
 
     // Ensure unique index on  username to prevent duplicate entries

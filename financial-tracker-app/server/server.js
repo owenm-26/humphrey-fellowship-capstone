@@ -5,28 +5,39 @@ import { connect, model } from "mongoose";
 import pkg2 from "bcryptjs";
 const { hash } = pkg2;
 import dotenv from "dotenv";
+import cors from "cors"; // Add this line
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const uri = process.env.MONGO_URI;
+const db = process.env.DATABASE_NAME;
+const collection = process.env.COLLECTION_NAME;
 
 // MongoDB connection
 connect(uri, {
   useNewUrlParser: true,
+  dbName: db,
 })
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error(err));
 
+// Use CORS middleware
+app.use(cors());
+
 // User schema
-const User = model("User", {
-  user: String,
-  password: String,
-  phone: String,
-  email: String,
-  business: String,
-});
+const User = model(
+  "User",
+  {
+    user: String,
+    password: String,
+    phone: String,
+    email: String,
+    business: String,
+  },
+  collection
+);
 
 app.use(json());
 
