@@ -105,6 +105,23 @@ app.post('/login', async(req, res) => {
 
 })
 
+// Middleware to verify JWT token
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized: No token provided' });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    }
+    req.userId = decoded.id;
+    next();
+  });
+};
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
