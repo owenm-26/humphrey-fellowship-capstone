@@ -29,7 +29,10 @@ const Login = (/*{ handleLogin }*/) => {
       if (response.ok) {
         const data = await response.json();
         alert(data.message); // Show success message
-        // navigate("/dashboard"); // Redirect to dashboard on successful registration
+
+        const token = data.jwt;
+
+        localStorage.setItem("token", token); //put JWT in local storage
       } else {
         const errorData = await response.json();
         alert(errorData.error); // Show error message
