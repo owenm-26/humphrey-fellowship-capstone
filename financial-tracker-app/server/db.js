@@ -2,11 +2,11 @@
 
 import pkg from "mongoose";
 const { connect, connection, disconnect } = pkg;
-import dotenv from "dotenv";
 
-dotenv.config();
+// const uri = process.env.MONGO_URI;
 
-const uri = process.env.MONGO_URI;
+// FIX LATER
+const uri = "mongodb+srv://owenHumphrey:ZZCk9IceQvBsHSxL@humphreyfellows.uqkop5v.mongodb.net/?retryWrites=true&w=majority&appName=HumphreyFellows"
 
 const clientOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },

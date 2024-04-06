@@ -4,12 +4,15 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { Content } from "antd/es/layout/layout";
 
+// FIX LATER
+const PORT = 6789
+
 const Register = ({ handleRegister }) => {
   const navigate = useNavigate();
 
   const registerUser = async (userData) => {
     try {
-      const response = await fetch("http://localhost:3000/register", {
+      const response = await fetch(`http://localhost:${PORT}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

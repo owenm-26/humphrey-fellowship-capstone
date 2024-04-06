@@ -4,16 +4,22 @@ const { json } = pkg;
 import { connect, model } from "mongoose";
 import pkg2 from "bcryptjs";
 const { hash } = pkg2;
-import dotenv from "dotenv";
-import cors from "cors"; // Add this line
-
-dotenv.config();
+import cors from "cors";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-const uri = process.env.MONGO_URI;
-const db = process.env.DATABASE_NAME;
-const collection = process.env.COLLECTION_NAME;
+// const PORT = process.env.PORT || 3000;
+// const uri = process.env.MONGO_URI;
+// const db = process.env.DATABASE_NAME;
+// const collection = process.env.COLLECTION_NAME;
+
+// FIX LATER
+const uri = "mongodb+srv://owenHumphrey:ZZCk9IceQvBsHSxL@humphreyfellows.uqkop5v.mongodb.net/?retryWrites=true&w=majority&appName=HumphreyFellows"
+const PORT = 6789
+const db = "financial-tracker"
+const collection = "userInfo";
+
+
+
 
 // MongoDB connection
 connect(uri, {
