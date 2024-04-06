@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -48,7 +48,13 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route
           path="/dashboard"
-          element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />}
+          element={
+            isLoggedIn ? (
+              <Dashboard handleLogout={handleLogout} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
       </Routes>
     </Router>
