@@ -82,12 +82,12 @@ app.post("/register", async (req, res) => {
 // login endpoint
 app.post('/login', async(req, res) => {
 
-  const {email, password} = req.body;
+  const {username, password} = req.body;
 
   //user authentication
-  const user = await User.findOne({email: email})
+  const user = await User.findOne({ email: username });
   if (!user) {
-    return res.status(400).json({ error: "User does not exist" });
+    return res.status(400).json({ error: "User does not exist", user: user });
   }
   const match = bcrypt.compare(password, user?.password || 'none')
 
@@ -98,11 +98,9 @@ app.post('/login', async(req, res) => {
   var now = Date.now();
 
   //added an hour
-  const payload = {email: email, exp: now+3600000}
-  const jwt_token = jwt.sign(payload, JWT_SECRET, { algorithm: 'HS256' });
+  const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
 
-  res.send({'status':200, 'jwt':jwt_token});
-  console.log(jwt_token)
+  res.send({'status':200, 'jwt':token});
   return;
 
 })
