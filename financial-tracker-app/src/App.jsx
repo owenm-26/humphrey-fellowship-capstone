@@ -1,75 +1,57 @@
-import { useState } from "react";
-import "./App.css";
-import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [profile, setProfile] = useState({});
 
-  const [user, setUser] = useState();
-  const [pwd, setPwd] = useState();
-  const [phone, setPhone] = useState();
-  const [email, setEmail] = useState();
-  const [business, setBusiness] = useState();
+  useEffect(() => {
+    // Check if the user is already logged in (e.g., using a token stored in localStorage)
+    const token = localStorage.getItem("token");
+    if (token) {
+      // If token exists, set user as logged in
+      setIsLoggedIn(true);
+    }
+  }, []);
 
-  const handleRegister = (values) => {
-    //set values to each holder
-    setUser(values.username);
-    setPwd(values.password);
-    setPhone(values.phoneNumber);
-    setBusiness(values.business);
-    setEmail(values.email);
-
-    //mark as logged in
-    // setIsLoggedIn(true);
-
-    //set profile object
-    setProfile({
-      username: user,
-      password: pwd,
-      email: email,
-      phone: phone,
-      business: business,
-    });
-  };
-
-  const handleLogin = (values) => {
-    setUser(values.username);
+  const handleLogin = () => {
+    // Set user as logged in
     setIsLoggedIn(true);
   };
 
+  const handleLogout = () => {
+    // Clear token from localStorage
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+  };
+
   return (
-    <>
-      <Router>
-        <Routes>
-          {isLoggedIn ? (
-            <>
-              <Route path="/" element={<Navigate to="/dashboard" />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-            </>
-          ) : (
-            // If user is not logged in, show Login page
-            <>
-              <Route path="/" element={<Login handleLogin={handleLogin} />} />
-              <Route path="/dashboard" element={<Navigate to="/" />} />
-            </>
-          )}
-          <Route
-            path="/register"
-            element={<Register handleRegister={handleRegister} />}
-          />
-        </Routes>
-      </Router>
-    </>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Login handleLogin={handleLogin} />
+            )
+          }
+        />
+        <Route path="/register" element={<Register />} />
+        <Route
+          path="/dashboard"
+          element={isLoggedIn ? <Dashboard /> : <Navigate to="/" />}
+        />
+      </Routes>
+    </Router>
   );
 }
 
