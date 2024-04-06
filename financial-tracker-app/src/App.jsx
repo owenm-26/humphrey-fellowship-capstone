@@ -9,26 +9,51 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 
+//FIX LATER
+const PORT = 6789
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const verifyUser = async (token) => {
+    try {
+      const response = await fetch(
+        `http://localhost:${PORT}/api/dashboard/dashboard`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      if (response.ok) {
+        console.log("Valid JWT!");
+        return true;
+      }
+    } catch (error) {
+      console.log("Error:", error);
+      return false;
+    }
+  };
 
   useEffect(() => {
     // Check if the user is already logged in (e.g., using a token stored in localStorage)
     const token = localStorage.getItem("token");
     if (token) {
-      // If token exists, set user as logged in
-      setIsLoggedIn(true);
+      console.log("Checking token...");
+      verifyUser(token).then((isValid) => {
+        setIsLoggedIn(isValid);
+      });
     }
   }, []);
 
   const handleLogin = () => {
-    // Set user as logged in
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
-    // Clear token from localStorage
-    localStorage.removeItem("token");
+    localStorage.removeItem("token"); // Clear token from localStorage
     setIsLoggedIn(false);
   };
 

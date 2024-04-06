@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 // fix later
 const PORT = 6789;
 
-const Login = (/*{ handleLogin }*/) => {
+// eslint-disable-next-line react/prop-types
+const Login = ({ handleLogin }) => {
   const navigate = useNavigate();
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -28,11 +29,14 @@ const Login = (/*{ handleLogin }*/) => {
 
       if (response.ok) {
         const data = await response.json();
-        alert(data.message); // Show success message
+        // alert(data.message); // Show success message
+        const redirectURL = data.redirectURL;
 
         const token = data.jwt;
 
         localStorage.setItem("token", token); //put JWT in local storage
+        window.location.href = redirectURL;
+        handleLogin;
       } else {
         const errorData = await response.json();
         alert(errorData.error); // Show error message

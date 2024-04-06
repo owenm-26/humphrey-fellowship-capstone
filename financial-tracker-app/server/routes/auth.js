@@ -61,7 +61,14 @@ router.post("/login", async (req, res) => {
     expiresIn: "1h",
   });
 
-  res.send({ status: 200, jwt: token, message: "Login Succesful!" });
+  const redirectURL = "/dashboard";
+
+  res.send({
+    status: 200,
+    jwt: token,
+    redirectURL: redirectURL,
+    message: "Login Succesful!",
+  });
   return;
 });
 
