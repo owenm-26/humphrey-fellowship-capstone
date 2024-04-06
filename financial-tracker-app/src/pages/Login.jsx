@@ -11,7 +11,7 @@ const PORT = 6789;
 const Login = ({ handleLogin }) => {
   const navigate = useNavigate();
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    // console.log("Received values of form: ", values); //uncomment for debugging user inputs
     navigate("/dashboard");
 
     loginUser(values);

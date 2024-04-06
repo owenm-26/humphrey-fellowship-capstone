@@ -28,7 +28,7 @@ function App() {
       );
 
       if (response.ok) {
-        console.log("Valid JWT!");
+        // console.log("Valid JWT!");
         return true;
       }
     } catch (error) {
@@ -41,7 +41,7 @@ function App() {
     // Check if the user is already logged in (e.g., using a token stored in localStorage)
     const token = localStorage.getItem("token");
     if (token) {
-      console.log("Checking token...");
+      // console.log("Checking token...");
       verifyUser(token).then((isValid) => {
         setIsLoggedIn(isValid);
       });
