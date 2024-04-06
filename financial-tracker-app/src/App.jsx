@@ -29,7 +29,7 @@ function App() {
     setEmail(values.email);
 
     //mark as logged in
-    setIsLoggedIn(true);
+    // setIsLoggedIn(true);
 
     //set profile object
     setProfile({
@@ -42,9 +42,7 @@ function App() {
   };
 
   const handleLogin = (values) => {
-    setProfile(values);
     setUser(values.username);
-    setPwd(values.password);
     setIsLoggedIn(true);
   };
 

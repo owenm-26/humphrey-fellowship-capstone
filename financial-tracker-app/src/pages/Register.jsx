@@ -20,10 +20,10 @@ const Register = ({ handleRegister }) => {
         body: JSON.stringify(userData),
       });
 
-      if (response.ok) {
+            if (response.ok) {
         const data = await response.json();
         alert(data.message); // Show success message
-        navigate("/dashboard"); // Redirect to dashboard on successful registration
+        navigate("/"); // Redirect to login on successful registration
       } else {
         const errorData = await response.json();
         alert(errorData.error); // Show error message
@@ -37,6 +37,7 @@ const Register = ({ handleRegister }) => {
   const onFinish = (values) => {
     console.log("Success:", values);
     registerUser(values);
+    handleRegister(values) //frontend sake
   };
 
   const onFinishFailed = (errorInfo) => {

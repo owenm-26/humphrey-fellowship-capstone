@@ -5,12 +5,40 @@ import logo from "../assets/logo.png";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
 
+// fix later
+const PORT = 6789
+
 const Login = ({ handleLogin }) => {
   const navigate = useNavigate();
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     navigate("/dashboard");
-    handleLogin(values);
+    // handleLogin(values);
+    loginUser(values)
+  };
+
+  const loginUser = async (userData) => {
+    try {
+      const response = await fetch(`http://localhost:${PORT}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        alert(data.message); // Show success message
+        navigate("/dashboard"); // Redirect to dashboard on successful registration
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error); // Show error message
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   const {
