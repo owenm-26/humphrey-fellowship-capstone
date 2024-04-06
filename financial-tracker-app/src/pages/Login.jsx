@@ -1,25 +1,24 @@
-import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, theme } from "antd";
+import { Button, Form, Input, theme } from "antd";
 import logo from "../assets/logo.png";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
 
 // fix later
-const PORT = 6789
+const PORT = 6789;
 
-const Login = ({ handleLogin }) => {
+const Login = (/*{ handleLogin }*/) => {
   const navigate = useNavigate();
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
     navigate("/dashboard");
-    // handleLogin(values);
-    loginUser(values)
+
+    loginUser(values);
   };
 
   const loginUser = async (userData) => {
     try {
-      const response = await fetch(`http://localhost:${PORT}/login`, {
+      const response = await fetch(`http://localhost:${PORT}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -30,7 +29,7 @@ const Login = ({ handleLogin }) => {
       if (response.ok) {
         const data = await response.json();
         alert(data.message); // Show success message
-        navigate("/dashboard"); // Redirect to dashboard on successful registration
+        // navigate("/dashboard"); // Redirect to dashboard on successful registration
       } else {
         const errorData = await response.json();
         alert(errorData.error); // Show error message

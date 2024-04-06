@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [profile, setProfile] = useState({});
 
   const [user, setUser] = useState();

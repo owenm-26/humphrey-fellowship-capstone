@@ -1,26 +1,28 @@
-import React, { useState } from "react";
 import { Button, Form, Input, theme } from "antd";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { Content } from "antd/es/layout/layout";
 
 // FIX LATER
-const PORT = 6789
+const PORT = 6789;
 
-const Register = ({ handleRegister }) => {
+const Register = (/*{handleRegister}*/) => {
   const navigate = useNavigate();
 
   const registerUser = async (userData) => {
     try {
-      const response = await fetch(`http://localhost:${PORT}/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        `http://localhost:${PORT}/api/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
 
-            if (response.ok) {
+      if (response.ok) {
         const data = await response.json();
         alert(data.message); // Show success message
         navigate("/"); // Redirect to login on successful registration
@@ -37,7 +39,7 @@ const Register = ({ handleRegister }) => {
   const onFinish = (values) => {
     console.log("Success:", values);
     registerUser(values);
-    handleRegister(values) //frontend sake
+    // handleRegister(values) //frontend sake
   };
 
   const onFinishFailed = (errorInfo) => {
