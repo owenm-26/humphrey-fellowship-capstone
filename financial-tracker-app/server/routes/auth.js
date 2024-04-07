@@ -60,6 +60,7 @@ router.post("/login", async (req, res) => {
       message: "Wrong password. Try again",
       ok: false,
       redirectURL: "/",
+      user: null,
     });
     return;
   }

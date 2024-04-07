@@ -15,6 +15,7 @@ const PORT = import.meta.env.VITE_PORT;
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
 
   const verifyUser = async (token) => {
     try {
@@ -67,7 +68,7 @@ function App() {
             isLoggedIn ? (
               <Navigate to="/dashboard" />
             ) : (
-              <Login handleLogin={handleLogin} />
+              <Login handleLogin={handleLogin} setUserInfo={setUserInfo} />
             )
           }
         />
@@ -76,7 +77,7 @@ function App() {
           path="/dashboard"
           element={
             isLoggedIn ? (
-              <Dashboard handleLogout={handleLogout} />
+              <Dashboard handleLogout={handleLogout} userInfo={userInfo} />
             ) : (
               <Navigate to="/" />
             )

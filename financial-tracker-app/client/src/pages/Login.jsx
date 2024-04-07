@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const PORT = import.meta.env.VITE_PORT;
 
 // eslint-disable-next-line react/prop-types
-const Login = ({ handleLogin }) => {
+const Login = ({ handleLogin, setUserInfo }) => {
   const navigate = useNavigate();
   const onFinish = (values) => {
     // console.log("Received values of form: ", values); //uncomment for debugging user inputs
@@ -35,11 +35,12 @@ const Login = ({ handleLogin }) => {
           localStorage.setItem("token", token); //put JWT in local storage
           window.location.href = redirectURL;
           handleLogin;
+          console.log(data.user);
+          alert(data.user);
+          setUserInfo(data.user);
         } else {
           alert(data.message); // Show error message
         }
-       
-       
       }
     } catch (error) {
       console.error("Error:", error);
