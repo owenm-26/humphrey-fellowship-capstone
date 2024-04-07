@@ -3,21 +3,17 @@ import pkg from "body-parser";
 const { json } = pkg;
 import { connect } from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 import authRouter from "./routes/auth.js";
 import dashboardRouter from "./routes/dashboard.js";
 
 const app = express();
-// const PORT = process.env.PORT || 3000;
-// const uri = process.env.MONGO_URI;
-// const db = process.env.DATABASE_NAME;
-// const collection = process.env.COLLECTION_NAME;
 
-// FIX LATER
-const uri =
-  "mongodb+srv://owenHumphrey:ZZCk9IceQvBsHSxL@humphreyfellows.uqkop5v.mongodb.net/?retryWrites=true&w=majority&appName=HumphreyFellows";
-const PORT = 6789;
-const db = "financial-tracker";
+const uri = process.env.MONGO_URI;
+const db = process.env.DB_NAME;
+const PORT = process.env.PORT;
 
 // MongoDB connection
 connect(uri, {

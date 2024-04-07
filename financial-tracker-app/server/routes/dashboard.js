@@ -2,9 +2,10 @@ import express from "express";
 const router = express.Router();
 import jwt from "jsonwebtoken";
 import User from "../models.js";
+import dotenv from "dotenv";
+dotenv.config();
 
-//FIX LATER
-const JWT_SECRET = "superSecret";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware to verify JWT token
 const verifyToken = (req, res, next) => {

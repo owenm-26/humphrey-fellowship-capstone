@@ -2,11 +2,10 @@
 
 import pkg from "mongoose";
 const { connect, connection, disconnect } = pkg;
+import dotenv from "dotenv";
+dotenv.config();
 
-// const uri = process.env.MONGO_URI;
-
-// FIX LATER
-const uri = "mongodb+srv://owenHumphrey:ZZCk9IceQvBsHSxL@humphreyfellows.uqkop5v.mongodb.net/?retryWrites=true&w=majority&appName=HumphreyFellows"
+const uri = process.env.MONGO_URI;
 
 const clientOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
@@ -14,6 +13,7 @@ const clientOptions = {
 
 async function run() {
   try {
+    console.log("uri:", uri);
     // Create a Mongoose client with a MongoClientOptions object to set the Stable API version
     await connect(uri, clientOptions);
     await connection.db.admin().command({ ping: 1 });

@@ -1,14 +1,10 @@
 import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
+dotenv.config();
 
-// const uri = process.env.MONGO_URI;
-// const dbName = process.env.DATABASE_NAME;
-// const collectionName = process.env.COLLECTION_NAME;
-
-
-// FIX LATER
-const uri = "mongodb+srv://owenHumphrey:ZZCk9IceQvBsHSxL@humphreyfellows.uqkop5v.mongodb.net/?retryWrites=true&w=majority&appName=HumphreyFellows"
-const dbName = "financial-tracker"
-const collectionName = "userInfo";
+const uri = process.env.MONGO_URI;
+const dbName = process.env.DB_NAME;
+const collectionName = process.env.COLLECTION_NAME;
 
 // Data to be inserted
 const userData = {

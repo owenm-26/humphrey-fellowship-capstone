@@ -3,12 +3,13 @@ import jwt from "jsonwebtoken";
 import pkg2 from "bcryptjs";
 import bcrypt from "bcrypt";
 import User from "../models.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const { hash } = pkg2;
 const router = express.Router();
 
-// FIX LATER
-const JWT_SECRET = "superSecret";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Register endpoint
 router.post("/register", async (req, res) => {
