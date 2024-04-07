@@ -51,26 +51,40 @@ router.post("/login", async (req, res) => {
   if (!user) {
     return res.status(400).json({ error: "User does not exist", user: user });
   }
-  const match = bcrypt.compare(password, user?.password || "none");
+  const match = await bcrypt.compare(password, user?.password);
+  // const match = await bcrypt.compare("apple", "orange");
 
   if (!match) {
-    throw new Error("Wrong password. Try again.");
+    res.send({
+      status: 401,
+      message: "Wrong password. Try again",
+      ok: false,
+      redirectURL: "/",
+    });
+    return;
   }
 
-  //added an hour
-  const token = jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  if (match) {
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      JWT_SECRET,
+      {
+        expiresIn: "1h",
+      }
+    );
 
-  const redirectURL = "/dashboard";
+    const redirectURL = "/dashboard";
 
-  res.send({
-    status: 200,
-    jwt: token,
-    redirectURL: redirectURL,
-    message: "Login Succesful!",
-  });
-  return;
+    res.send({
+      status: 200,
+      jwt: token,
+      redirectURL: redirectURL,
+      message: "Login Succesful!",
+      user: user,
+      ok: true,
+    });
+    return;
+  }
 });
 
 export default router;

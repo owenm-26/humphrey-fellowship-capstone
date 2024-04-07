@@ -25,20 +25,21 @@ const Login = ({ handleLogin }) => {
         },
         body: JSON.stringify(userData),
       });
-
       if (response.ok) {
         const data = await response.json();
-        // alert(data.message); // Show success message
-        const redirectURL = data.redirectURL;
+        if (data.status == 200) {
+          const redirectURL = data.redirectURL;
 
-        const token = data.jwt;
+          const token = data.jwt;
 
-        localStorage.setItem("token", token); //put JWT in local storage
-        window.location.href = redirectURL;
-        handleLogin;
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error); // Show error message
+          localStorage.setItem("token", token); //put JWT in local storage
+          window.location.href = redirectURL;
+          handleLogin;
+        } else {
+          alert(data.message); // Show error message
+        }
+       
+       
       }
     } catch (error) {
       console.error("Error:", error);
