@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { Content } from "antd/es/layout/layout";
 
-// FIX LATER
-const PORT = 6789;
+const PORT = import.meta.env.VITE_PORT;
 
 const Register = (/*{handleRegister}*/) => {
   const navigate = useNavigate();

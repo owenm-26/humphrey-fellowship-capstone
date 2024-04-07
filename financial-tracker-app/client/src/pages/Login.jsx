@@ -4,8 +4,7 @@ import logo from "../assets/logo.png";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
 
-// fix later
-const PORT = 6789;
+const PORT = import.meta.env.VITE_PORT;
 
 // eslint-disable-next-line react/prop-types
 const Login = ({ handleLogin }) => {

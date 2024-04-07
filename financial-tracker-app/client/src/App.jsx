@@ -9,8 +9,9 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 
-//FIX LATER
-const PORT = 6789
+
+const PORT = import.meta.env.VITE_PORT;
+
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
