@@ -1,7 +1,8 @@
 import "../App.css";
 import logo from "../assets/logo.png";
 import { useEffect, useState } from "react";
-import { Layout, theme, Row, Col } from "antd";
+import { DownloadOutlined } from "@ant-design/icons";
+import { Layout, theme, Row, Col, Button } from "antd";
 const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 
@@ -81,6 +82,11 @@ const Dashboard = ({ userInfo, handleLogout }) => {
     }
   };
 
+  const generateReport = async () => {
+    console.log("Generating report...");
+    console.log("Done!");
+  };
+
   // FRONTEND
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -107,13 +113,14 @@ const Dashboard = ({ userInfo, handleLogout }) => {
             minHeight: 280,
             padding: 24,
             borderRadius: borderRadiusLG,
+            height: "100vh",
           }}
         >
-          <Row style={{ justifyContent: "center" }}>
+          <Row style={{ justifyContent: "center", height: "70vh" }}>
             <Col
               style={{
                 backgroundColor: "aliceblue",
-                height: "200px",
+
                 margin: 5,
               }}
               span={6}
@@ -123,7 +130,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
             <Col
               style={{
                 backgroundColor: "aliceblue",
-                height: "200px",
+
                 margin: 5,
               }}
               span={6}
@@ -133,12 +140,23 @@ const Dashboard = ({ userInfo, handleLogout }) => {
             <Col
               style={{
                 backgroundColor: "aliceblue",
-                height: "200px",
                 margin: 5,
               }}
               span={6}
             >
               Record Expenses
+            </Col>
+          </Row>
+          <Row style={{ justifyContent: "center", marginTop: "80px" }}>
+            <Col span={12}>
+              <Button
+                type="primary"
+                icon={<DownloadOutlined />}
+                size={"large"}
+                onClick={generateReport}
+              >
+                Generate Report
+              </Button>
             </Col>
           </Row>
         </div>
