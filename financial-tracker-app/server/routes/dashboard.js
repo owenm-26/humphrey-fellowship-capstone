@@ -48,7 +48,8 @@ router.get("/token/:userId", async (req, res) => {
       res.send({ status: 400, message: "DNE" });
       return;
     }
-    res.send({ status: 200, token: userId });
+    const decodedToken = jwt.decode(userId).id;
+    res.send({ status: 200, userId: decodedToken });
   } catch (error) {
     res.send({ status: 400, message: "Error in /api/info/token" });
   }
