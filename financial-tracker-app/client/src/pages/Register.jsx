@@ -55,8 +55,10 @@ const Register = (/*{handleRegister}*/) => {
         style={{
           background: colorBgContainer,
           minHeight: 280,
-          padding: "0 48px",
+          padding: "20px 48px",
           borderRadius: borderRadiusLG,
+          margin: "200px 350px",
+          width: "50%",
         }}
       >
         <img className="logo" src={logo} alt="logo" />
@@ -72,6 +74,7 @@ const Register = (/*{handleRegister}*/) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
+            marginRight: "12em",
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -150,9 +153,16 @@ const Register = (/*{handleRegister}*/) => {
               span: 16,
             }}
           >
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              style={{ marginLeft: "9em" }}
+            >
               Submit
             </Button>
+            <p style={{ marginLeft: "9em" }}>
+              Already have an account? <a href="/">Login!</a>
+            </p>
           </Form.Item>
         </Form>
       </Content>
