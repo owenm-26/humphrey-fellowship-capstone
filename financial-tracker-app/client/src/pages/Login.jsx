@@ -1,5 +1,5 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Form, Input, theme } from "antd";
+import { Button, Flex, Form, Input, theme } from "antd";
 import logo from "../assets/logo.png";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate } from "react-router-dom";
@@ -35,8 +35,8 @@ const Login = ({ handleLogin, setUserInfo }) => {
           localStorage.setItem("token", token); //put JWT in local storage
           window.location.href = redirectURL;
           handleLogin;
-          console.log(data.user);
-          alert(data.user);
+          // console.log(data.user);
+          // alert(data.user); uncomment to see data
           setUserInfo(data.user);
         } else {
           alert(data.message); // Show error message
@@ -58,8 +58,10 @@ const Login = ({ handleLogin, setUserInfo }) => {
         style={{
           background: colorBgContainer,
           minHeight: 280,
-          padding: "0 48px",
+          padding: "20px 48px",
           borderRadius: borderRadiusLG,
+          margin: "200px 350px",
+          width: "50%",
         }}
       >
         <img className="logo" src={logo} alt="logo" />

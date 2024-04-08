@@ -8,6 +8,7 @@ import {
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import "./index.css";
 
 
 const PORT = import.meta.env.VITE_PORT;

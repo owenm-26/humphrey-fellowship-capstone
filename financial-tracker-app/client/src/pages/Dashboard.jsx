@@ -1,9 +1,10 @@
 import "../App.css";
 import logo from "../assets/logo.png";
-// import User from "../models.js";
 import { useEffect, useState } from "react";
+import { Layout, theme } from "antd";
+const { Header, Footer, Sider, Content } = Layout;
 
-const PORT = import.meta.env.VITE_PORT
+const PORT = import.meta.env.VITE_PORT;
 
 // eslint-disable-next-line react/prop-types
 const Dashboard = ({ userInfo, handleLogout }) => {
@@ -79,14 +80,42 @@ const Dashboard = ({ userInfo, handleLogout }) => {
     }
   };
 
+  // FRONTEND
+  const {
+    token: { colorBgContainer, borderRadiusLG },
+  } = theme.useToken();
+
   return (
-    <div>
-      <img className="logo" src={logo} alt="logo" />
-      <h1>Welcome to Dashboard</h1>
-      <h1>UserInfo:{userData ? userData.business : ""}</h1>
-      <button onClick={logOut}>Logout</button>
-    </div>
+    <Layout>
+      <Header style={{ display: "flex", alignItems: "center" }}>
+        <button onClick={logOut}>Logout</button>
+      </Header>
+      <Content style={{ padding: "0 48px" }}>
+        <div
+          style={{
+            background: colorBgContainer,
+            minHeight: 280,
+            padding: 24,
+            borderRadius: borderRadiusLG,
+          }}
+        >
+          Content
+        </div>
+      </Content>
+      <Footer style={{ textAlign: "center" }}>
+        Humphrey Fellowship ©{new Date().getFullYear()} Created by Ant UED
+      </Footer>
+    </Layout>
   );
 };
 
 export default Dashboard;
+
+{
+  /* <div>
+      <img className="logo" src={logo} alt="logo" />
+      <h1>Welcome to Dashboard</h1>
+      <h1>UserInfo:{userData ? userData.business : ""}</h1>
+      
+    </div> */
+}
