@@ -118,7 +118,9 @@ const Login = ({ handleLogin, setUserInfo }) => {
             >
               Log in
             </Button>
-            Or <a href="/register">register now!</a>
+            <p>
+              Or <a href="/register">register now!</a>
+            </p>
           </Form.Item>
         </Form>
       </Content>
