@@ -9,6 +9,7 @@ const PORT = import.meta.env.VITE_PORT
 const Dashboard = ({ userInfo, handleLogout }) => {
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState();
+  const [userId, setUserId] = useState();
   const logOut = () => {
     handleLogout();
   };
@@ -21,10 +22,15 @@ const Dashboard = ({ userInfo, handleLogout }) => {
   }, []);
 
   useEffect(() => {
-    getUserData(token);
+    getUserId(token);
   }, [token]);
 
-  const getUserData = async (token) => {
+  useEffect(() => {
+    getUserDataById(userId);
+  }, [userId]);
+
+  // convert JWT into userId
+  const getUserId = async (token) => {
     if (!token) {
       return;
     }
@@ -41,8 +47,32 @@ const Dashboard = ({ userInfo, handleLogout }) => {
       );
 
       const data = await response.json();
-      // setUserData(data);
-      console.log("getUserData worked!", data);
+      setUserId(data.userId);
+      console.log("getUserId worked!", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  // get user info by Id
+  const getUserDataById = async (userId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:${PORT}/api/dashboard/getUserById/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (data.status == 200) {
+        setUserData(data.userData);
+        console.log("getUserDatabyId worked!", data.userData);
+        return;
+      }
+      console.log("Error data:", data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -52,7 +82,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
     <div>
       <img className="logo" src={logo} alt="logo" />
       <h1>Welcome to Dashboard</h1>
-      <h1>UserInfo:{userData}</h1>
+      <h1>UserInfo:{userData ? userData.business : ""}</h1>
       <button onClick={logOut}>Logout</button>
     </div>
   );

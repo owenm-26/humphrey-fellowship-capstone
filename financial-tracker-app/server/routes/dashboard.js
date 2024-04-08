@@ -41,9 +41,9 @@ router.get("/dashboard", verifyToken, async (req, res) => {
   }
 });
 
-router.get("/token/:userId", async (req, res) => {
+router.get("/token/:token", async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.params.token;
     if (userId.length < 2) {
       res.send({ status: 400, message: "DNE" });
       return;
@@ -51,7 +51,25 @@ router.get("/token/:userId", async (req, res) => {
     const decodedToken = jwt.decode(userId).id;
     res.send({ status: 200, userId: decodedToken });
   } catch (error) {
-    res.send({ status: 400, message: "Error in /api/info/token" });
+    res.send({ status: 400, message: "Error in /token/:userId" });
+  }
+});
+
+router.get("/getUserById/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    if (userId.length < 2) {
+      res.send({ status: 400, message: "DNE" });
+      return;
+    }
+    const user = await User.findOne({ _id: userId });
+    if (!user) {
+      res.send({ status: 401, message: "user does not exist" });
+    }
+    res.send({ status: 200, userData: user });
+    return;
+  } catch (error) {
+    res.send({ status: 400, message: "Error in /getUserById/:userId" });
   }
 });
 
