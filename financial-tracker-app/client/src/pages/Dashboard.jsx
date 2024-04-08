@@ -3,6 +3,7 @@ import logo from "../assets/logo.png";
 import { useEffect, useState } from "react";
 import { Layout, theme } from "antd";
 const { Header, Footer, Sider, Content } = Layout;
+import "../styles/dashboard.css";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -35,7 +36,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
     if (!token) {
       return;
     }
-    console.log("token:", token);
+    // console.log("token:", token);
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/dashboard/token/${token}`,
@@ -49,7 +50,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
 
       const data = await response.json();
       setUserId(data.userId);
-      console.log("getUserId worked!", data);
+      // console.log("getUserId worked!", data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -71,7 +72,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
       const data = await response.json();
       if (data.status == 200) {
         setUserData(data.userData);
-        console.log("getUserDatabyId worked!", data.userData);
+        // console.log("getUserDatabyId worked!", data.userData);
         return;
       }
       console.log("Error data:", data);
@@ -87,8 +88,17 @@ const Dashboard = ({ userInfo, handleLogout }) => {
 
   return (
     <Layout>
-      <Header style={{ display: "flex", alignItems: "center" }}>
+      <Header
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <button onClick={logOut}>Logout</button>
+        <h2 style={{ marginLeft: "50%" }}>
+          {userData ? userData.business : ""}
+        </h2>
       </Header>
       <Content style={{ padding: "0 48px" }}>
         <div
@@ -103,7 +113,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        Humphrey Fellowship ©{new Date().getFullYear()} Created by Ant UED
+        Humphrey Fellowship ©{new Date().getFullYear()} Created by Owen Mariani
       </Footer>
     </Layout>
   );
@@ -115,7 +125,7 @@ export default Dashboard;
   /* <div>
       <img className="logo" src={logo} alt="logo" />
       <h1>Welcome to Dashboard</h1>
-      <h1>UserInfo:{userData ? userData.business : ""}</h1>
+      </h1>
       
     </div> */
 }
