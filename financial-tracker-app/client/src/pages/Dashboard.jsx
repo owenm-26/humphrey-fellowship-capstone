@@ -1,8 +1,8 @@
 import "../App.css";
 import logo from "../assets/logo.png";
 import { useEffect, useState } from "react";
-import { Layout, theme } from "antd";
-const { Header, Footer, Sider, Content } = Layout;
+import { Layout, theme, Row, Col } from "antd";
+const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 
 const PORT = import.meta.env.VITE_PORT;
@@ -109,7 +109,38 @@ const Dashboard = ({ userInfo, handleLogout }) => {
             borderRadius: borderRadiusLG,
           }}
         >
-          Content
+          <Row style={{ justifyContent: "center" }}>
+            <Col
+              style={{
+                backgroundColor: "aliceblue",
+                height: "200px",
+                margin: 5,
+              }}
+              span={6}
+            >
+              Record Supplies
+            </Col>
+            <Col
+              style={{
+                backgroundColor: "aliceblue",
+                height: "200px",
+                margin: 5,
+              }}
+              span={6}
+            >
+              Record Sales
+            </Col>
+            <Col
+              style={{
+                backgroundColor: "aliceblue",
+                height: "200px",
+                margin: 5,
+              }}
+              span={6}
+            >
+              Record Expenses
+            </Col>
+          </Row>
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
