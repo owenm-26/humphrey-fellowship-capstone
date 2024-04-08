@@ -8,7 +8,7 @@ const PORT = import.meta.env.VITE_PORT
 // eslint-disable-next-line react/prop-types
 const Dashboard = ({ userInfo, handleLogout }) => {
   const [userData, setUserData] = useState(null);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState();
   const logOut = () => {
     handleLogout();
   };
@@ -25,22 +25,27 @@ const Dashboard = ({ userInfo, handleLogout }) => {
   }, [token]);
 
   const getUserData = async (token) => {
-    console.log(token);
-    // try {
-    //   const response = await fetch(`http://localhost:${PORT}/api/info/token`, {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(token),
-    //   });
+    if (!token) {
+      return;
+    }
+    console.log("token:", token);
+    try {
+      const response = await fetch(
+        `http://localhost:${PORT}/api/dashboard/token/${token}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-    //   const data = await response.json();
-    //   setUserData(data);
-    //   console.log("getUserData worked!");
-    // } catch (error) {
-    //   console.error("Error:", error);
-    // }
+      const data = await response.json();
+      // setUserData(data);
+      console.log("getUserData worked!", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (

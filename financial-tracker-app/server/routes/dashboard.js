@@ -41,4 +41,17 @@ router.get("/dashboard", verifyToken, async (req, res) => {
   }
 });
 
+router.get("/token/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    if (userId.length < 2) {
+      res.send({ status: 400, message: "DNE" });
+      return;
+    }
+    res.send({ status: 200, token: userId });
+  } catch (error) {
+    res.send({ status: 400, message: "Error in /api/info/token" });
+  }
+});
+
 export default router;
