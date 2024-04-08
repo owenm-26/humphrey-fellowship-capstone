@@ -56,6 +56,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
 
   // get user info by Id
   const getUserDataById = async (userId) => {
+    if (!userId) return;
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/dashboard/getUserById/${userId}`,
