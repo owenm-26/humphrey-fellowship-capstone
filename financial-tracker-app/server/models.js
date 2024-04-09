@@ -2,43 +2,40 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const userCollection = process.env.VITE_USER_COLLECTION;
-const financesCollection = process.env.VITE_BUSINESS_COLLECTION;
 import { model, Schema } from "mongoose";
 
-// Define child schemas
-const supplySchema = new Schema({
-  item: String,
-  quantity: Number,
-  buyPrice: Number,
-  date: { type: Date, default: Date.now },
-});
-
-const expenseSchema = new Schema({
-  name: String,
-  cost: Number,
-  date: { type: Date, default: Date.now },
-});
-
-const saleSchema = new Schema({
-  item: String,
-  quantity: Number,
-  sellPrice: Number,
-  date: { type: Date, default: Date.now },
-});
-
-// Put schemas into models
-export const Supply = model("Supply", supplySchema);
-export const Expense = model("Expense", expenseSchema);
-export const Sale = model("Sale", saleSchema);
-
 // Define parent schema
-const businessSchema = new Schema({
-  supplies: [{ type: Schema.Types.ObjectId, ref: "Supply" }],
-  sales: [{ type: Schema.Types.ObjectId, ref: "Sale" }],
-  expenses: [{ type: Schema.Types.ObjectId, ref: "Expense" }],
+const financesSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  supplies: [
+    {
+      name: String,
+      quantity: Number,
+      buyPrice: Number,
+      date: Date,
+    },
+  ],
+  expenses: [
+    {
+      name: String,
+      cost: Number,
+      date: Date,
+    },
+  ],
+  sales: [
+    {
+      name: String,
+      quantity: Number,
+      sellCost: Number,
+      date: Date,
+    },
+  ],
 });
 
-export const Business = model("Business", businessSchema, financesCollection);
+export const Finances = model("Finances", financesSchema);
 
 // Define user model
 export const User = model(
@@ -49,7 +46,10 @@ export const User = model(
     phone: String,
     email: String,
     business: String,
-    finances: { type: Schema.Types.ObjectId, ref: "Business" },
+    finances: {
+      type: Schema.Types.ObjectId,
+      ref: "Finances",
+    },
   },
   userCollection
 );
