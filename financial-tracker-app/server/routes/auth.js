@@ -2,7 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import pkg2 from "bcryptjs";
 import bcrypt from "bcrypt";
-import { User } from "../models.js";
+import { User, Finances } from "../models.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -36,15 +36,15 @@ router.post("/register", async (req, res) => {
     await newUser.save();
 
     // Create a new business for the user
-    const newBusiness = new Business({
+    const newFinances = new Finances({
       userId: newUser._id,
       supplies: [],
       expenses: [],
       sales: [],
     });
 
-    await newBusiness.save();
-    newUser.businessId = newBusiness._id;
+    await newFinances.save();
+    newUser.finances = newFinances._id;
     await newUser.save();
 
     res

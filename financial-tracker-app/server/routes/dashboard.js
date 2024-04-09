@@ -81,17 +81,20 @@ router.get("/getFinancesById/:businessId", async (req, res) => {
       res.send({ status: 400, message: "DNE" });
       return;
     }
-    const business = await User.findOne({ finances: businessId });
-    if (!business) {
-      res.send({ status: 401, message: "business does not exist" });
+    const user = await User.findOne({ finances: businessId });
+    const finances = user.finances;
+    if (!finances) {
+      res.send({ status: 401, message: "finances does not exist" });
       return;
     }
-    res.send({ status: 200, finances: business });
+    res.send({ status: 200, finances: finances });
     return;
   } catch (error) {
     res.send({ status: 400, message: "Error in /getFinancesById/:businessId" });
     return;
   }
 });
+
+// router.get("/getInventoryByFinancesId/:");
 
 export default router;
