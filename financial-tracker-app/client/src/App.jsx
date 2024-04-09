@@ -78,7 +78,7 @@ function App() {
           path="/dashboard"
           element={
             isLoggedIn ? (
-              <Dashboard handleLogout={handleLogout} userInfo={userInfo} />
+              <Dashboard handleLogout={handleLogout} />
             ) : (
               <Navigate to="/" />
             )

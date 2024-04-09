@@ -9,7 +9,7 @@ import "../styles/dashboard.css";
 const PORT = import.meta.env.VITE_PORT;
 
 // eslint-disable-next-line react/prop-types
-const Dashboard = ({ userInfo, handleLogout }) => {
+const Dashboard = ({ handleLogout }) => {
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState();
   const [userId, setUserId] = useState();
@@ -73,7 +73,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
       const data = await response.json();
       if (data.status == 200) {
         setUserData(data.userData);
-        // console.log("getUserDatabyId worked!", data.userData);
+        console.log("getUserDatabyId worked!", data.userData);
         return;
       }
       console.log("Error data:", data);
@@ -125,7 +125,7 @@ const Dashboard = ({ userInfo, handleLogout }) => {
               }}
               span={6}
             >
-              Record Supplies
+              Record Inventory
             </Col>
             <Col
               style={{
