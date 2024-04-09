@@ -13,6 +13,9 @@ const Dashboard = ({ handleLogout }) => {
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState();
   const [userId, setUserId] = useState();
+  const [businessId, setBusinessId] = useState();
+  const [finances, setFinances] = useState();
+
   const logOut = () => {
     handleLogout();
   };
@@ -31,6 +34,41 @@ const Dashboard = ({ handleLogout }) => {
   useEffect(() => {
     getUserDataById(userId);
   }, [userId]);
+
+  useEffect(() => {
+    if (!userData) return;
+    setBusinessId(userData.finances);
+  }, [userData]);
+
+  // delete later
+  useEffect(() => {
+    console.log("businessId:", businessId);
+    getFinancesById(businessId);
+  }, [businessId]);
+
+  const getFinancesById = async (businessId) => {
+    if (!businessId) return;
+    try {
+      const response = await fetch(
+        `http://localhost:${PORT}/api/dashboard/getFinancesById/${businessId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      if (data.status == 200) {
+        setFinances(data.finances);
+        console.log("getFinancesById worked!", data.finances);
+        return;
+      }
+      console.log("Error data:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   // convert JWT into userId
   const getUserId = async (token) => {
@@ -73,7 +111,7 @@ const Dashboard = ({ handleLogout }) => {
       const data = await response.json();
       if (data.status == 200) {
         setUserData(data.userData);
-        console.log("getUserDatabyId worked!", data.userData);
+        // console.log("getUserDatabyId worked!", data.userData);
         return;
       }
       console.log("Error data:", data);

@@ -38,12 +38,15 @@ router.post("/register", async (req, res) => {
       phone: phoneNumber,
       email,
       business,
-      finances: newBusiness,
+      finances: newBusiness._id,
     });
-
+    await newBusiness.save();
     await newUser.save();
 
-    res.status(201).json({ message: "User registered successfully" });
+
+    res
+      .status(201)
+      .json({ message: "User (and business) registered successfully" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });

@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import jwt from "jsonwebtoken";
-import { User } from "../models.js";
+import { Business, User } from "../models.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -70,6 +70,27 @@ router.get("/getUserById/:userId", async (req, res) => {
     return;
   } catch (error) {
     res.send({ status: 400, message: "Error in /getUserById/:userId" });
+  }
+});
+
+// get finances by ID
+router.get("/getFinancesById/:businessId", async (req, res) => {
+  try {
+    const businessId = req.params.businessId;
+    if (businessId.length < 2) {
+      res.send({ status: 400, message: "DNE" });
+      return;
+    }
+    const business = await Business.findOne({ _id: businessId });
+    if (!business) {
+      res.send({ status: 401, message: "business does not exist" });
+      return;
+    }
+    res.send({ status: 200, finances: business });
+    return;
+  } catch (error) {
+    res.send({ status: 400, message: "Error in /getFinancesById/:businessId" });
+    return;
   }
 });
 

@@ -36,7 +36,7 @@ const Login = ({ handleLogin, setUserInfo }) => {
           window.location.href = redirectURL;
           handleLogin;
           // console.log(data.user);
-          // alert(data.user); uncomment to see data
+          // alert(data.user); //uncomment to see data
           setUserInfo(data.user);
         } else {
           alert(data.message); // Show error message

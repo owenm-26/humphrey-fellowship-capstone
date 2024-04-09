@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-const collection = process.env.COLLECTION_NAME;
+const userCollection = process.env.VITE_USER_COLLECTION;
+const financesCollection = process.env.VITE_BUSINESS_COLLECTION;
 import { model, Schema } from "mongoose";
 
 // Define child schemas
@@ -37,9 +38,9 @@ const businessSchema = new Schema({
   expenses: [{ type: Schema.Types.ObjectId, ref: "Expense" }],
 });
 
-export const Business = model("Business", businessSchema);
+export const Business = model("Business", businessSchema, financesCollection);
 
-// Define user model 
+// Define user model
 export const User = model(
   "User",
   {
@@ -47,7 +48,8 @@ export const User = model(
     password: String,
     phone: String,
     email: String,
+    business: String,
     finances: { type: Schema.Types.ObjectId, ref: "Business" },
   },
-  collection
+  userCollection
 );
