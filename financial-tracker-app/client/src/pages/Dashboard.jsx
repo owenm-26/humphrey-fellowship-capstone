@@ -2,7 +2,8 @@ import "../App.css";
 import logo from "../assets/logo.png";
 import { useEffect, useState } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
-import { Layout, theme, Row, Col, Button } from "antd";
+import { Layout, theme, Row, Col, Button, Input, Form, Typography } from "antd";
+const { TextArea } = Input;
 const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 
@@ -16,10 +17,15 @@ const Dashboard = ({ handleLogout }) => {
   const [businessId, setBusinessId] = useState();
   const [finances, setFinances] = useState();
 
+  const [itemName, setItemName] = useState("");
+  const [quantity, setQuantity] = useState(0);
+  const [cost, setCost] = useState(0);
+
   const logOut = () => {
     handleLogout();
   };
 
+  // save token from local storage
   useEffect(() => {
     const getToken = async () => {
       setToken(localStorage.getItem("token"));
@@ -27,24 +33,57 @@ const Dashboard = ({ handleLogout }) => {
     getToken();
   }, []);
 
+  // get userId by decrypting token
+  //DEPENDENCY: token
   useEffect(() => {
     getUserId(token);
   }, [token]);
 
+  // get userData by Id
+  //DEPENDENCY: userId
   useEffect(() => {
     getUserDataById(userId);
   }, [userId]);
 
+  // get businessId from userData
+  //DEPENDENCY: userData
   useEffect(() => {
     if (!userData) return;
     setBusinessId(userData.finances);
   }, [userData]);
 
-  // delete later
+  // get finances by businessId
+  //DEPENDENCY: businessId
   useEffect(() => {
     console.log("businessId:", businessId);
     getFinancesById(businessId);
   }, [businessId]);
+
+  // add new inventory item
+  const addInventoryItem = async (businessId, itemData) => {
+    if (!businessId || !itemData) return;
+    itemData["date"] = new Date();
+    console.log("itemData:", itemData);
+    try {
+      const response = await fetch(
+        `http://localhost:${PORT}/api/dashboard/addInventoryItem/${businessId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(itemData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   const getFinancesById = async (businessId) => {
     if (!businessId) return;
@@ -139,7 +178,7 @@ const Dashboard = ({ handleLogout }) => {
           justifyContent: "space-between",
         }}
       >
-        <button onClick={logOut}>Logout</button>
+        <Button onClick={logOut}>Logout</Button>
         <h2 style={{ marginLeft: "50%" }}>
           {userData ? userData.business : ""}
         </h2>
@@ -163,7 +202,94 @@ const Dashboard = ({ handleLogout }) => {
               }}
               span={6}
             >
-              Record Inventory
+              <Typography.Title level={2} className="section-header">
+                {" "}
+                Inventory
+              </Typography.Title>
+              <Form
+                style={{
+                  minHeight: 280,
+                  borderRadius: 0,
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  padding: "20px",
+                }}
+                initialValues={{
+                  remember: true,
+                }}
+                onFinish={() => {
+                  if (itemName.length < 1) {
+                    alert("Please give the item a name");
+                    return;
+                  }
+                  if (quantity < 1) {
+                    alert("Please give a positive quantity");
+                    return;
+                  }
+                  addInventoryItem(businessId, {
+                    itemName,
+                    quantity,
+                    cost,
+                  });
+                  setItemName("");
+                  setQuantity(0);
+                  setCost(0);
+                }}
+              >
+                <Form.Item label="Item Name">
+                  <Input
+                    type="text"
+                    placeholder="Item Name"
+                    allowClear
+                    value={itemName}
+                    onChange={(e) => setItemName(e.target.value)}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input an item name",
+                      },
+                    ]}
+                  />{" "}
+                </Form.Item>
+                <Form.Item label="Quantity">
+                  <Input
+                    type="number"
+                    placeholder="Quantity"
+                    allowClear
+                    value={quantity}
+                    onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input a quantity",
+                      },
+                    ]}
+                  />
+                </Form.Item>
+                <Form.Item label="Total Cost">
+                  <Input
+                    type="number"
+                    placeholder="Total Cost"
+                    allowClear
+                    value={cost}
+                    onChange={(e) => setCost(parseInt(e.target.value, 10))}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input a cost",
+                      },
+                    ]}
+                  />
+                </Form.Item>
+
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    Record Inventory
+                  </Button>
+                </Form.Item>
+              </Form>
             </Col>
             <Col
               style={{
