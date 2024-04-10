@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import jwt from "jsonwebtoken";
-import { User } from "../models.js";
+import { Finances, User } from "../models.js";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -81,8 +81,8 @@ router.get("/getFinancesById/:businessId", async (req, res) => {
       res.send({ status: 400, message: "DNE" });
       return;
     }
-    const user = await User.findOne({ finances: businessId });
-    const finances = user.finances;
+    const finances = await Finances.findOne({ _id: businessId });
+
     if (!finances) {
       res.send({ status: 401, message: "finances does not exist" });
       return;
