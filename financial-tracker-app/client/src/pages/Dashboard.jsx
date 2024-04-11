@@ -6,6 +6,7 @@ import { Layout, theme, Row, Col, Button, Input, Form, Typography } from "antd";
 const { TextArea } = Input;
 const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
+import CustomTable from "../components/Table";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -80,6 +81,7 @@ const Dashboard = ({ handleLogout }) => {
 
       if (response.ok) {
         const data = await response.json();
+        setIsLoggingInventory(false);
         console.log(data);
       }
     } catch (error) {
@@ -171,6 +173,12 @@ const Dashboard = ({ handleLogout }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  //makes date readible
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "short", day: "2-digit" };
+    return date.toLocaleDateString("en-US", options);
+  };
   return (
     <Layout>
       <Header
@@ -301,13 +309,48 @@ const Dashboard = ({ handleLogout }) => {
                   </Form.Item>
                 </Form>
               ) : (
-                ""
+                <div className="custom-table">
+                  <CustomTable
+                    style={{
+                      minHeight: 280,
+                      borderRadius: 0,
+                      width: "10px",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      padding: "20px",
+                    }}
+                    columns={[
+                      {
+                        title: "Name",
+                        dataIndex: "name",
+                        width: 80,
+                      },
+                      {
+                        title: "Quantity",
+                        dataIndex: "quantity",
+                        width: 100,
+                      },
+                      {
+                        title: "Price",
+                        dataIndex: "buyPrice",
+                        width: 70,
+                      },
+                      {
+                        title: "Date",
+                        dataIndex: "date",
+                        width: 100,
+                        render: (text, record) => formatDate(record.date),
+                      },
+                    ]}
+                    data={finances?.expenses}
+                  />
+                </div>
               )}
             </Col>
             <Col
               style={{
                 backgroundColor: "aliceblue",
-
                 margin: 5,
               }}
               span={6}

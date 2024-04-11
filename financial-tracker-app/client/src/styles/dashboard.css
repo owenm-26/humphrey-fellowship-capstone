@@ -7,3 +7,13 @@ h2{
 .section-header{
     justify-content: center;
 }
+
+.custom-table{
+    /* min-height: 280px; */
+  border-radius: 0;
+  width: 100%; /* Make the table fill its container */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5%;
+}
