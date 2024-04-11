@@ -9,7 +9,6 @@
 body{
   background-color: aliceblue;
   color: black;
-  height: 1000px;
 }
 
 .logo{
@@ -17,6 +16,10 @@ body{
   margin: 30px;
 }
 
+.login-form{
+  width:50vw;
+}
+
 .form-input{
-  width:350px;
+  width: 80%
 }

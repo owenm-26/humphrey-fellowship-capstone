@@ -57,11 +57,15 @@ const Login = ({ handleLogin, setUserInfo }) => {
       <Content
         style={{
           background: colorBgContainer,
-          minHeight: 280,
-          padding: "20px 48px",
+          // minHeight: 280,
+          // padding: "20px 48px",
           borderRadius: borderRadiusLG,
-          margin: "200px 350px",
-          width: "50%",
+          // margin: "200px 350px",
+          // width: "50%",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
         }}
       >
         <img className="logo" src={logo} alt="logo" />
@@ -87,6 +91,7 @@ const Login = ({ handleLogin, setUserInfo }) => {
                 message: "Please input your Username!",
               },
             ]}
+            style={{ width: "5w" }}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}

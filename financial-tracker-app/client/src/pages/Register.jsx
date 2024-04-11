@@ -54,18 +54,19 @@ const Register = (/*{handleRegister}*/) => {
       <Content
         style={{
           background: colorBgContainer,
-          minHeight: 280,
-          padding: "20px 48px",
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
           borderRadius: borderRadiusLG,
-          margin: "200px 350px",
-          width: "50%",
         }}
       >
         <img className="logo" src={logo} alt="logo" />
         <Form
           name="basic"
+          className="login-form"
           labelCol={{
-            span: 8,
+            span: 6,
           }}
           wrapperCol={{
             span: 16,
@@ -74,7 +75,6 @@ const Register = (/*{handleRegister}*/) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            marginRight: "12em",
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -90,7 +90,7 @@ const Register = (/*{handleRegister}*/) => {
               },
             ]}
           >
-            <Input placeholder="John Smith" />
+            <Input placeholder="John Smith" className="form-input" />
           </Form.Item>
 
           <Form.Item
@@ -103,7 +103,7 @@ const Register = (/*{handleRegister}*/) => {
               },
             ]}
           >
-            <Input.Password />
+            <Input.Password className="form-input" />
           </Form.Item>
 
           <Form.Item
@@ -117,7 +117,11 @@ const Register = (/*{handleRegister}*/) => {
               },
             ]}
           >
-            <Input placeholder="1234567890" autoComplete="off" />
+            <Input
+              placeholder="1234567890"
+              autoComplete="off"
+              className="form-input"
+            />
           </Form.Item>
 
           <Form.Item
@@ -131,7 +135,7 @@ const Register = (/*{handleRegister}*/) => {
               },
             ]}
           >
-            <Input placeholder="jsmith@gmail.com" />
+            <Input placeholder="jsmith@gmail.com" className="form-input" />
           </Form.Item>
 
           <Form.Item
@@ -144,7 +148,11 @@ const Register = (/*{handleRegister}*/) => {
               },
             ]}
           >
-            <Input placeholder="Lumber" autoComplete="off" />
+            <Input
+              placeholder="Lumber"
+              autoComplete="off"
+              className="form-input"
+            />
           </Form.Item>
 
           <Form.Item
@@ -153,14 +161,10 @@ const Register = (/*{handleRegister}*/) => {
               span: 16,
             }}
           >
-            <Button
-              type="primary"
-              htmlType="submit"
-              style={{ marginLeft: "9em" }}
-            >
+            <Button type="primary" htmlType="submit" style={{}}>
               Submit
             </Button>
-            <p style={{ marginLeft: "9em" }}>
+            <p style={{}}>
               Already have an account? <a href="/">Login!</a>
             </p>
           </Form.Item>
