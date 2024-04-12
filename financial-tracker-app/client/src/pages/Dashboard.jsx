@@ -7,6 +7,8 @@ const { TextArea } = Input;
 const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 import CustomTable from "../components/Table";
+import Sider from "antd/es/layout/Sider";
+import InputForm from "../components/InputForm";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -83,6 +85,9 @@ const Dashboard = ({ handleLogout }) => {
         const data = await response.json();
         setIsLoggingInventory(false);
         console.log(data);
+        setItemName("");
+        setQuantity(0);
+        setCost(0);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -210,8 +215,9 @@ const Dashboard = ({ handleLogout }) => {
 
                 margin: 5,
               }}
-              span={6}
+              span={24}
             >
+              {" "}
               <Typography.Title level={2} className="section-header">
                 {" "}
                 Inventory
@@ -222,92 +228,10 @@ const Dashboard = ({ handleLogout }) => {
                 {isLoggingInventory ? "Close" : "Add"}
               </Button>
               {isLoggingInventory ? (
-                <Form
-                  style={{
-                    minHeight: 280,
-                    borderRadius: 0,
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    padding: "20px",
-                  }}
-                  initialValues={{
-                    remember: true,
-                  }}
-                  onFinish={() => {
-                    if (itemName.length < 1) {
-                      alert("Please give the item a name");
-                      return;
-                    }
-                    if (quantity < 1) {
-                      alert("Please give a positive quantity");
-                      return;
-                    }
-                    addInventoryItem(businessId, {
-                      itemName,
-                      quantity,
-                      cost,
-                    });
-                    setItemName("");
-                    setQuantity(0);
-                    setCost(0);
-                  }}
-                >
-                  <Form.Item label="Item Name">
-                    <Input
-                      type="text"
-                      placeholder="Item Name"
-                      allowClear
-                      value={itemName}
-                      onChange={(e) => setItemName(e.target.value)}
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input an item name",
-                        },
-                      ]}
-                    />{" "}
-                  </Form.Item>
-                  <Form.Item label="Quantity">
-                    <Input
-                      type="number"
-                      placeholder="Quantity"
-                      allowClear
-                      value={quantity}
-                      onChange={(e) =>
-                        setQuantity(parseInt(e.target.value, 10))
-                      }
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input a quantity",
-                        },
-                      ]}
-                    />
-                  </Form.Item>
-                  <Form.Item label="Total Cost">
-                    <Input
-                      type="number"
-                      placeholder="Total Cost"
-                      allowClear
-                      value={cost}
-                      onChange={(e) => setCost(parseInt(e.target.value, 10))}
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input a cost",
-                        },
-                      ]}
-                    />
-                  </Form.Item>
-
-                  <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                      Record Inventory
-                    </Button>
-                  </Form.Item>
-                </Form>
+                <InputForm
+                  businessId={businessId}
+                  addInventoryItem={addInventoryItem}
+                />
               ) : (
                 <div className="custom-table">
                   <CustomTable
@@ -348,24 +272,6 @@ const Dashboard = ({ handleLogout }) => {
                 </div>
               )}
             </Col>
-            <Col
-              style={{
-                backgroundColor: "aliceblue",
-                margin: 5,
-              }}
-              span={6}
-            >
-              Record Sales
-            </Col>
-            <Col
-              style={{
-                backgroundColor: "aliceblue",
-                margin: 5,
-              }}
-              span={6}
-            >
-              Record Expenses
-            </Col>
           </Row>
           <Row style={{ justifyContent: "center", marginTop: "80px" }}>
             <Col span={12}>
@@ -398,3 +304,5 @@ export default Dashboard;
       
     </div> */
 }
+
+
