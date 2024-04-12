@@ -90,7 +90,7 @@ export const expensesColumns = [
 
 export const salesColumns = [
   {
-    title: "Name",
+    title: "Item Name",
     dataIndex: "name",
     width: "80",
     align: "center",
@@ -102,7 +102,7 @@ export const salesColumns = [
     align: "center",
   },
   {
-    title: "Price",
+    title: "Sale Price",
     dataIndex: "sellCost",
     width: "70",
     render: (text) => `$${text}`,
@@ -112,6 +112,7 @@ export const salesColumns = [
     title: "Date",
     dataIndex: "date",
     width: "100",
+    align: "center",
   },
   {
     title: "Action",
