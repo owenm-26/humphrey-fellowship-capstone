@@ -206,6 +206,27 @@ const Dashboard = ({ handleLogout }) => {
     return date.toLocaleDateString("en-US", options);
   };
 
+  //functions that modify inputs to dashboard based on view
+  const whichAddFunction = (currentView) => {
+    if (currentView == "Inventory") return addInventoryItem;
+    else if (currentView == "Sales") return null;
+    else if (currentView == "Expenses") return null; //FIX LATER
+    else throw new Error("currentView not valid");
+  };
+
+  const whichColumnFunction = (currentView) => {
+    if (currentView == "Inventory") return inventoryColumns;
+    else if (currentView == "Sales") return salesColumns;
+    else if (currentView == "Expenses") return expensesColumns;
+    else throw new Error("currentView not valid");
+  };
+
+  const whichDataFunction = (currentView) => {
+    if (currentView == "Inventory") return finances?.supplies;
+    else if (currentView == "Sales") return finances?.sales;
+    else if (currentView == "Expenses") return finances?.expenses;
+    else throw new Error("currentView not valid");
+  };
   // Table Columns
   const inventoryColumns = [
     {
@@ -221,6 +242,38 @@ const Dashboard = ({ handleLogout }) => {
     {
       title: "Expense",
       dataIndex: "buyPrice",
+      width: 70,
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      width: 100,
+      render: (text, record) => formatDate(record.date),
+    },
+    {
+      title: "Action",
+      key: "action",
+      width: 40,
+      render: (_, record) => (
+        <Space size="middle">
+          <a onClick={() => console.log("Delete Inventory", record._id)}>
+            Delete
+          </a>{" "}
+          {/* COMPLETE LATER*/}
+        </Space>
+      ),
+    },
+  ];
+
+  const expensesColumns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      width: 80,
+    },
+    {
+      title: "Cost",
+      dataIndex: "cost",
       width: 70,
     },
     {
@@ -339,14 +392,14 @@ const Dashboard = ({ handleLogout }) => {
               {isLoggingData ? (
                 <InventoryInputForm
                   businessId={businessId}
-                  addItemFunction={addInventoryItem}
+                  addItemFunction={whichAddFunction(currentView)}
                 />
               ) : (
                 <div className="custom-table">
                   <CustomTable
                     className="customTable"
-                    columns={inventoryColumns}
-                    data={finances?.supplies}
+                    columns={whichColumnFunction(currentView)}
+                    data={whichDataFunction(currentView)}
                   />
                 </div>
               )}
