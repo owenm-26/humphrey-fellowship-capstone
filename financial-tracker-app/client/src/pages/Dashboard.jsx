@@ -60,7 +60,7 @@ const Dashboard = ({ handleLogout }) => {
   // get finances by businessId
   //DEPENDENCY: businessId
   useEffect(() => {
-    console.log("businessId:", businessId);
+    // console.log("businessId:", businessId);
     getFinancesById(businessId);
   }, [businessId]);
 
@@ -68,7 +68,7 @@ const Dashboard = ({ handleLogout }) => {
   const addInventoryItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;
     itemData["date"] = new Date();
-    console.log("itemData:", itemData);
+    // console.log("itemData:", itemData);
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/dashboard/addInventoryItem/${businessId}`,
@@ -88,6 +88,16 @@ const Dashboard = ({ handleLogout }) => {
         setItemName("");
         setQuantity(0);
         setCost(0);
+        const inventoryToAdd = {
+          name: itemData.itemName,
+          quantity: itemData.quantity,
+          buyPrice: itemData.cost,
+          date: itemData.date,
+        };
+        setFinances((prevState) => {
+          const newSupplies = [...prevState.supplies, inventoryToAdd];
+          return { ...prevState, supplies: newSupplies };
+        });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -109,7 +119,7 @@ const Dashboard = ({ handleLogout }) => {
       const data = await response.json();
       if (data.status == 200) {
         setFinances(data.finances);
-        console.log("getFinancesById worked!", data.finances);
+        // console.log("getFinancesById worked!", data.finances);
         return;
       }
       console.log("Error data:", data);
