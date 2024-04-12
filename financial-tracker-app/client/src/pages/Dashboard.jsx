@@ -343,7 +343,7 @@ const Dashboard = ({ handleLogout }) => {
                         render: (text, record) => formatDate(record.date),
                       },
                     ]}
-                    data={finances?.expenses}
+                    data={finances?.supplies}
                   />
                 </div>
               )}
