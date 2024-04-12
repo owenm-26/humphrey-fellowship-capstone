@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Input } from "antd";
 
-const InputForm = ({ businessId, addItemFunction }) => {
+const InventoryInputForm = ({ businessId, addItemFunction }) => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [cost, setCost] = useState(0);
@@ -75,4 +75,4 @@ const InputForm = ({ businessId, addItemFunction }) => {
   );
 };
 
-export default InputForm;
+export default InventoryInputForm;

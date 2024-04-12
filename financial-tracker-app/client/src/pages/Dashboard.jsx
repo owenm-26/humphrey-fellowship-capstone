@@ -2,13 +2,23 @@ import "../App.css";
 import logo from "../assets/logo.png";
 import { useEffect, useState } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
-import { Layout, theme, Row, Col, Button, Input, Menu, Typography } from "antd";
+import {
+  Layout,
+  theme,
+  Row,
+  Col,
+  Button,
+  Input,
+  Menu,
+  Typography,
+  Space,
+} from "antd";
 const { TextArea } = Input;
 const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 import CustomTable from "../components/Table";
 import Sider from "antd/es/layout/Sider";
-import InputForm from "../components/InputForm";
+import InventoryInputForm from "../components/InputForm";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -24,7 +34,8 @@ const Dashboard = ({ handleLogout }) => {
   const [quantity, setQuantity] = useState(0);
   const [cost, setCost] = useState(0);
 
-  const [isLoggingInventory, setIsLoggingInventory] = useState(false);
+  const [isLoggingData, setIsLoggingData] = useState(false);
+  const [currentView, setCurrentView] = useState("Inventory");
 
   const logOut = () => {
     handleLogout();
@@ -83,7 +94,7 @@ const Dashboard = ({ handleLogout }) => {
 
       if (response.ok) {
         const data = await response.json();
-        setIsLoggingInventory(false);
+        setIsLoggingData(false);
         console.log(data);
         setItemName("");
         setQuantity(0);
@@ -194,6 +205,79 @@ const Dashboard = ({ handleLogout }) => {
     const options = { year: "numeric", month: "short", day: "2-digit" };
     return date.toLocaleDateString("en-US", options);
   };
+
+  // Table Columns
+  const inventoryColumns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      width: 80,
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      width: 100,
+    },
+    {
+      title: "Expense",
+      dataIndex: "buyPrice",
+      width: 70,
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      width: 100,
+      render: (text, record) => formatDate(record.date),
+    },
+    {
+      title: "Action",
+      key: "action",
+      width: 40,
+      render: (_, record) => (
+        <Space size="middle">
+          <a onClick={() => console.log("Delete Inventory", record._id)}>
+            Delete
+          </a>{" "}
+          {/* COMPLETE LATER*/}
+        </Space>
+      ),
+    },
+  ];
+
+  const salesColumns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      width: "80",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      width: "100",
+    },
+    {
+      title: "Price",
+      dataIndex: "sellCost",
+      width: "70",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      width: "100",
+    },
+    {
+      title: "Action",
+      key: "action",
+      width: 40,
+      render: (_, record) => (
+        <Space size="middle">
+          <a onClick={() => console.log("Delete Sale:", record._id)}>Delete</a>{" "}
+          {/* COMPLETE LATER*/}
+        </Space>
+      ),
+    },
+  ];
+
   return (
     <Layout>
       <Header
@@ -209,11 +293,12 @@ const Dashboard = ({ handleLogout }) => {
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={["2"]}
+          defaultSelectedKeys={["Inventory"]}
+          onClick={({ key }) => setCurrentView(key)}
           items={[
-            { key: 1, label: "Inventory" },
-            { key: 2, label: "Sales" },
-            { key: 3, label: "Expenses" },
+            { key: "Inventory", label: "Inventory" },
+            { key: "Sales", label: "Sales" },
+            { key: "Expenses", label: "Expenses" },
           ]}
           style={{
             flex: 1,
@@ -243,56 +328,24 @@ const Dashboard = ({ handleLogout }) => {
               }}
               span={24}
             >
-              {" "}
+              {/* Dashboard Body */}{" "}
               <Typography.Title level={2} className="section-header">
                 {" "}
-                Inventory
+                {currentView}
               </Typography.Title>
-              <Button
-                onClick={() => setIsLoggingInventory(!isLoggingInventory)}
-              >
-                {isLoggingInventory ? "Close" : "Add"}
+              <Button onClick={() => setIsLoggingData(!isLoggingData)}>
+                {isLoggingData ? "Close" : "Add"}
               </Button>
-              {isLoggingInventory ? (
-                <InputForm
+              {isLoggingData ? (
+                <InventoryInputForm
                   businessId={businessId}
                   addItemFunction={addInventoryItem}
                 />
               ) : (
                 <div className="custom-table">
                   <CustomTable
-                    style={{
-                      minHeight: 280,
-                      borderRadius: 0,
-                      width: "10px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      padding: "20px",
-                    }}
-                    columns={[
-                      {
-                        title: "Name",
-                        dataIndex: "name",
-                        width: 80,
-                      },
-                      {
-                        title: "Quantity",
-                        dataIndex: "quantity",
-                        width: 100,
-                      },
-                      {
-                        title: "Expense",
-                        dataIndex: "buyPrice",
-                        width: 70,
-                      },
-                      {
-                        title: "Date",
-                        dataIndex: "date",
-                        width: 100,
-                        render: (text, record) => formatDate(record.date),
-                      },
-                    ]}
+                    className="customTable"
+                    columns={inventoryColumns}
                     data={finances?.supplies}
                   />
                 </div>
@@ -300,6 +353,7 @@ const Dashboard = ({ handleLogout }) => {
             </Col>
           </Row>
           <Row style={{ justifyContent: "center", marginTop: "80px" }}>
+            {/* GENERATE REPORT */}
             <Col span={12}>
               <Button
                 type="primary"
