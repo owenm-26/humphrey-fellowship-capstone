@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Input } from "antd";
 
-const InputForm = ({ businessId, addInventoryItem }) => {
+const InputForm = ({ businessId, addItemFunction }) => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [cost, setCost] = useState(0);
@@ -28,7 +28,7 @@ const InputForm = ({ businessId, addInventoryItem }) => {
           alert("Please give a positive quantity");
           return;
         }
-        addInventoryItem(businessId, {
+        addItemFunction(businessId, {
           itemName,
           quantity,
           cost,

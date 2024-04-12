@@ -230,7 +230,7 @@ const Dashboard = ({ handleLogout }) => {
               {isLoggingInventory ? (
                 <InputForm
                   businessId={businessId}
-                  addInventoryItem={addInventoryItem}
+                  addItemFunction={addInventoryItem}
                 />
               ) : (
                 <div className="custom-table">
