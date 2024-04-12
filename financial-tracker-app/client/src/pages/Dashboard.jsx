@@ -266,7 +266,7 @@ const Dashboard = ({ handleLogout }) => {
                         width: 100,
                       },
                       {
-                        title: "Price",
+                        title: "Expense",
                         dataIndex: "buyPrice",
                         width: 70,
                       },
