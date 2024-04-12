@@ -19,6 +19,11 @@ import "../styles/dashboard.css";
 import CustomTable from "../components/Table";
 import Sider from "antd/es/layout/Sider";
 import InventoryInputForm from "../components/InputForm";
+import {
+  salesColumns,
+  expensesColumns,
+  inventoryColumns,
+} from "../functions/columns.jsx";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -199,13 +204,6 @@ const Dashboard = ({ handleLogout }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  //makes date readible
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const options = { year: "numeric", month: "short", day: "2-digit" };
-    return date.toLocaleDateString("en-US", options);
-  };
-
   //functions that modify inputs to dashboard based on view
   const whichAddFunction = (currentView) => {
     if (currentView == "Inventory") return addInventoryItem;
@@ -227,109 +225,6 @@ const Dashboard = ({ handleLogout }) => {
     else if (currentView == "Expenses") return finances?.expenses;
     else throw new Error("currentView not valid");
   };
-  // Table Columns
-  const inventoryColumns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      width: 80,
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      width: 100,
-    },
-    {
-      title: "Expense",
-      dataIndex: "buyPrice",
-      width: 70,
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      width: 100,
-      render: (text, record) => formatDate(record.date),
-    },
-    {
-      title: "Action",
-      key: "action",
-      width: 40,
-      render: (_, record) => (
-        <Space size="middle">
-          <a onClick={() => console.log("Delete Inventory", record._id)}>
-            Delete
-          </a>{" "}
-          {/* COMPLETE LATER*/}
-        </Space>
-      ),
-    },
-  ];
-
-  const expensesColumns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      width: 80,
-    },
-    {
-      title: "Cost",
-      dataIndex: "cost",
-      width: 70,
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      width: 100,
-      render: (text, record) => formatDate(record.date),
-    },
-    {
-      title: "Action",
-      key: "action",
-      width: 40,
-      render: (_, record) => (
-        <Space size="middle">
-          <a onClick={() => console.log("Delete Inventory", record._id)}>
-            Delete
-          </a>{" "}
-          {/* COMPLETE LATER*/}
-        </Space>
-      ),
-    },
-  ];
-
-  const salesColumns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      width: "80",
-    },
-    {
-      title: "Quantity",
-      dataIndex: "quantity",
-      width: "100",
-    },
-    {
-      title: "Price",
-      dataIndex: "sellCost",
-      width: "70",
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      width: "100",
-    },
-    {
-      title: "Action",
-      key: "action",
-      width: 40,
-      render: (_, record) => (
-        <Space size="middle">
-          <a onClick={() => console.log("Delete Sale:", record._id)}>Delete</a>{" "}
-          {/* COMPLETE LATER*/}
-        </Space>
-      ),
-    },
-  ];
 
   return (
     <Layout>

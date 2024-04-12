@@ -55,10 +55,10 @@ const InventoryInputForm = ({ businessId, addItemFunction }) => {
           style={{ borderRadius: 5 }}
         />
       </Form.Item>
-      <Form.Item label="Total Cost">
+      <Form.Item label="Cost per Unit">
         <Input
           type="number"
-          placeholder="Total Cost"
+          placeholder="Cost per Unit"
           allowClear
           value={cost}
           onChange={(e) => setCost(parseInt(e.target.value, 10))}
