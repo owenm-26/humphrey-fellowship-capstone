@@ -2,7 +2,7 @@ import "../App.css";
 import logo from "../assets/logo.png";
 import { useEffect, useState } from "react";
 import { DownloadOutlined } from "@ant-design/icons";
-import { Layout, theme, Row, Col, Button, Input, Form, Typography } from "antd";
+import { Layout, theme, Row, Col, Button, Input, Menu, Typography } from "antd";
 const { TextArea } = Input;
 const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
@@ -203,7 +203,23 @@ const Dashboard = ({ handleLogout }) => {
           justifyContent: "space-between",
         }}
       >
-        <Button onClick={logOut}>Logout</Button>
+        <Button onClick={logOut} style={{ marginRight: "40px" }}>
+          Logout
+        </Button>
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={["2"]}
+          items={[
+            { key: 1, label: "Inventory" },
+            { key: 2, label: "Sales" },
+            { key: 3, label: "Expenses" },
+          ]}
+          style={{
+            flex: 1,
+            minWidth: 0,
+          }}
+        />
         <h2 style={{ marginLeft: "50%" }}>
           {userData ? userData.business : ""}
         </h2>
