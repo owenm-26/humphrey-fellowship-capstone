@@ -8,6 +8,7 @@ dotenv.config();
 
 import authRouter from "./routes/auth.js";
 import dashboardRouter from "./routes/dashboard.js";
+import inventoryRouter from "./routes/dashboardViews/inventory.js";
 
 const app = express();
 
@@ -30,6 +31,13 @@ app.use(json());
 // Use the routers
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
+// for different dashboard views
+app.use('/api/dashboard/inventory', inventoryRouter)
+
+//TO BE IMPLEMENTED
+// app.use('/api/dashboard/sales', salesRouter)
+// app.use('/api/dashboard/expenses', expensesRouter)
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

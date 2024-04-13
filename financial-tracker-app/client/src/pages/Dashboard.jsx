@@ -87,7 +87,7 @@ const Dashboard = ({ handleLogout }) => {
     // console.log("itemData:", itemData);
     try {
       const response = await fetch(
-        `http://localhost:${PORT}/api/dashboard/addInventoryItem/${businessId}`,
+        `http://localhost:${PORT}/api/dashboard/inventory/addInventoryItem/${businessId}`,
         {
           method: "POST",
           headers: {
