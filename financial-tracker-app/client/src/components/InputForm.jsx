@@ -54,7 +54,7 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
               placeholder="Quantity"
               allowClear
               value={quantity}
-              onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+              onChange={(e) => setQuantity(parseFloat(e.target.value, 10))}
               style={{ borderRadius: 5 }}
             />
           </Form.Item>
@@ -64,7 +64,7 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
               placeholder="Cost per Unit"
               allowClear
               value={cost}
-              onChange={(e) => setCost(parseInt(e.target.value, 10))}
+              onChange={(e) => setCost(parseFloat(e.target.value, 10))}
               style={{ borderRadius: 5 }}
             />
           </Form.Item>
@@ -121,7 +121,7 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
               placeholder="Quantity"
               allowClear
               value={quantity}
-              onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+              onChange={(e) => setQuantity(parseFloat(e.target.value, 10))}
               style={{ borderRadius: 5 }}
             />
           </Form.Item>
@@ -131,7 +131,7 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
               placeholder="Price per Unit"
               allowClear
               value={cost}
-              onChange={(e) => setCost(parseInt(e.target.value, 10))}
+              onChange={(e) => setCost(parseFloat(e.target.value, 10))}
               style={{ borderRadius: 5 }}
             />
           </Form.Item>
@@ -189,7 +189,7 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
               placeholder="Total Cost"
               allowClear
               value={cost}
-              onChange={(e) => setCost(parseInt(e.target.value, 10))}
+              onChange={(e) => setCost(parseFloat(e.target.value, 10))}
               style={{ borderRadius: 5 }}
             />
           </Form.Item>
