@@ -9,6 +9,7 @@ const Register = (/*{handleRegister}*/) => {
   const navigate = useNavigate();
 
   const registerUser = async (userData) => {
+    console.log(userData);
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/auth/register`,
@@ -141,7 +142,7 @@ const Register = (/*{handleRegister}*/) => {
             name="business"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input the nature of your business!",
               },
             ]}
