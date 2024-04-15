@@ -254,7 +254,7 @@ const Dashboard = ({ handleLogout }) => {
         console.log(data.finances);
         setFinances((prevState) => {
           const updatedFinances = { ...prevState };
-          if (updatedFinances && currentView in validViews) {
+          if (updatedFinances && validViews.includes(currentView)) {
             if (currentView === validViews[0]) {
               updatedFinances.supplies = updatedFinances.supplies.filter(
                 (item) => item._id !== id
@@ -270,7 +270,7 @@ const Dashboard = ({ handleLogout }) => {
             }
           }
           return updatedFinances;
-        });
+        });        
         return;
       } else {
         console.log("Delete Failed");
