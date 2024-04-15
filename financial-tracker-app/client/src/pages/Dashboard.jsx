@@ -76,6 +76,36 @@ const Dashboard = ({ handleLogout }) => {
     getFinancesById(businessId);
   }, [businessId, refresh]);
 
+  // add new sale
+  const addSalesItem = async (businessId, itemData) => {
+    console.log("adding sale...", itemData, businessId);
+    if (!businessId || !itemData) return;
+    itemData["date"] = new Date();
+    try {
+      const response = await fetch(
+        `http://localhost:${PORT}/api/dashboard/sales/addSalesItem/${businessId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(itemData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setRefresh((prevRefresh) => !prevRefresh);
+        setIsLoggingData(false);
+      } else {
+        console.log("Sale log Failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // add new expense
   const addExpenseItem = async (businessId, itemData) => {
     console.log("adding expense...", itemData, businessId);
@@ -105,6 +135,7 @@ const Dashboard = ({ handleLogout }) => {
       console.error(error);
     }
   };
+
   // add new inventory item
   const addInventoryItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;
@@ -219,7 +250,7 @@ const Dashboard = ({ handleLogout }) => {
   //functions that modify inputs to dashboard based on view
   const whichAddFunction = (currentView) => {
     if (currentView == "Inventory") return addInventoryItem;
-    else if (currentView == "Sales") return null;
+    else if (currentView == "Sales") return addSalesItem;
     else if (currentView == "Expenses") return addExpenseItem;
     else throw new Error("currentView not valid");
   };
@@ -376,6 +407,7 @@ const Dashboard = ({ handleLogout }) => {
     {
       title: "Date",
       dataIndex: "date",
+      render: (text, record) => formatDate(record.date),
       width: "20%",
       align: "center",
     },

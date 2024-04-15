@@ -10,6 +10,7 @@ import authRouter from "./routes/auth.js";
 import dashboardRouter from "./routes/dashboard.js";
 import inventoryRouter from "./routes/dashboardViews/inventory.js";
 import expensesRouter from "./routes/dashboardViews/expenses.js";
+import salesRouter from "./routes/dashboardViews/sales.js";
 
 const app = express();
 
@@ -35,9 +36,10 @@ app.use("/api/dashboard", dashboardRouter);
 // for different dashboard views
 app.use("/api/dashboard/inventory", inventoryRouter);
 app.use("/api/dashboard/expenses", expensesRouter);
+app.use("/api/dashboard/sales", salesRouter);
 
-//TO BE IMPLEMENTED
-// app.use('/api/dashboard/sales', salesRouter)
+
+
 
 
 

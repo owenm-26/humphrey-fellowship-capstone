@@ -2,8 +2,6 @@ import express from "express";
 const router = express.Router();
 import { Finances, User } from "../../models.js";
 
-export default router;
-
 router.post("/addExpenseItem/:businessId", async (req, res) => {
   try {
     const businessId = req.params.businessId;
@@ -32,7 +30,7 @@ router.post("/addExpenseItem/:businessId", async (req, res) => {
     res.send({
       ok: true,
       status: 200,
-      message: "Success. Inventory added,",
+      message: "Success. Expense added,",
       finances: finances,
     });
     return;
@@ -40,3 +38,5 @@ router.post("/addExpenseItem/:businessId", async (req, res) => {
     res.send({ status: 500, message: "internal server error" });
   }
 });
+
+export default router;

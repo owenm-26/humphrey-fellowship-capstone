@@ -9,6 +9,7 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
   return (
     <>
       {currentView === "Inventory" ? (
+        // INVENTORY FORM
         <Form
           style={{
             background: "#fff",
@@ -74,8 +75,73 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
           </Form.Item>
         </Form>
       ) : currentView === "Sales" ? (
-        <p>Sales</p>
+        // SALES FORM
+        <Form
+          style={{
+            background: "#fff",
+            minHeight: 280,
+            borderRadius: 10,
+            padding: "20px",
+            margin: "40px",
+            width: "calc(100% - 80px)",
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={() => {
+            if (itemName.length < 1) {
+              alert("Please give the item a name");
+              return;
+            }
+            if (quantity < 1) {
+              alert("Please give a positive quantity");
+              return;
+            }
+            addItemFunction(businessId, {
+              itemName,
+              cost,
+            });
+          }}
+        >
+          <Form.Item label="Item Name">
+            <Input
+              type="text"
+              placeholder="Item Name"
+              allowClear
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+              style={{ borderRadius: 5 }}
+            />
+          </Form.Item>
+          <Form.Item label="Quantity">
+            <Input
+              type="number"
+              placeholder="Quantity"
+              allowClear
+              value={quantity}
+              onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
+              style={{ borderRadius: 5 }}
+            />
+          </Form.Item>
+          <Form.Item label="Price per Unit">
+            <Input
+              type="number"
+              placeholder="Price per Unit"
+              allowClear
+              value={cost}
+              onChange={(e) => setCost(parseInt(e.target.value, 10))}
+              style={{ borderRadius: 5 }}
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Record Sale
+            </Button>
+          </Form.Item>
+        </Form>
       ) : (
+        // EXPENSE FORM
         <Form
           style={{
             background: "#fff",
