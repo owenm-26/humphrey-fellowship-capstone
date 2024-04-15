@@ -36,9 +36,7 @@ const Register = (/*{handleRegister}*/) => {
   };
 
   const onFinish = (values) => {
-    console.log("Success:", values);
     registerUser(values);
-    // handleRegister(values) //frontend sake
   };
 
   const onFinishFailed = (errorInfo) => {

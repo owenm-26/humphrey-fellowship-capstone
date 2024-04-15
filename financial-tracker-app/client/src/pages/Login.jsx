@@ -10,7 +10,6 @@ const PORT = import.meta.env.VITE_PORT;
 const Login = ({ handleLogin, setUserInfo }) => {
   const navigate = useNavigate();
   const onFinish = (values) => {
-    // console.log("Received values of form: ", values); //uncomment for debugging user inputs
     navigate("/dashboard");
 
     loginUser(values);
@@ -35,8 +34,6 @@ const Login = ({ handleLogin, setUserInfo }) => {
           localStorage.setItem("token", token); //put JWT in local storage
           window.location.href = redirectURL;
           handleLogin;
-          // console.log(data.user);
-          // alert(data.user); //uncomment to see data
           setUserInfo(data.user);
         } else {
           alert(data.message); // Show error message

@@ -78,7 +78,6 @@ const Dashboard = ({ handleLogout }) => {
 
   // add new sale
   const addSalesItem = async (businessId, itemData) => {
-    console.log("adding sale...", itemData, businessId);
     if (!businessId || !itemData) return;
     itemData["date"] = new Date();
     try {
@@ -94,8 +93,6 @@ const Dashboard = ({ handleLogout }) => {
       );
 
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
         setRefresh((prevRefresh) => !prevRefresh);
         setIsLoggingData(false);
       } else {
@@ -108,7 +105,6 @@ const Dashboard = ({ handleLogout }) => {
 
   // add new expense
   const addExpenseItem = async (businessId, itemData) => {
-    console.log("adding expense...", itemData, businessId);
     if (!businessId || !itemData) return;
     itemData["date"] = new Date();
     try {
@@ -124,8 +120,6 @@ const Dashboard = ({ handleLogout }) => {
       );
 
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
         setRefresh((prevRefresh) => !prevRefresh);
         setIsLoggingData(false);
       } else {
@@ -140,7 +134,6 @@ const Dashboard = ({ handleLogout }) => {
   const addInventoryItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;
     itemData["date"] = new Date();
-    // console.log("itemData:", itemData);
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/dashboard/inventory/addInventoryItem/${businessId}`,
@@ -154,9 +147,7 @@ const Dashboard = ({ handleLogout }) => {
       );
 
       if (response.ok) {
-        const data = await response.json();
         setIsLoggingData(false);
-        console.log(data);
         setItemName("");
         setQuantity(0);
         setCost(0);
@@ -292,9 +283,6 @@ const Dashboard = ({ handleLogout }) => {
 
       if (response.ok) {
         setRefresh((prevRefresh) => !prevRefresh);
-        const data = await response.json();
-        console.log(data.message);
-        console.log(data.finances);
         return;
       } else {
         console.log("Delete Failed");
