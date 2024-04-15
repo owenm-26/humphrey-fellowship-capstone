@@ -19,6 +19,20 @@ router.post("/addSalesItem/:businessId", async (req, res) => {
     finances.expenses = finances.expenses || [];
     finances.sales = finances.sales || [];
 
+    const itemIndex = finances.supplies.findIndex(
+      (item) => item.name === itemName
+    );
+
+    // if -1 that means it doesn't exist
+    if (itemIndex !== -1) {
+      finances.supplies[itemIndex].quantity -= quantity;
+
+      // If the quantity after subtraction is zero
+      if (finances.supplies[itemIndex].quantity === 0) {
+        finances.supplies.splice(itemIndex, 1);
+      }
+    }
+
     finances.sales.push({
       name: itemName,
       quantity: quantity,
