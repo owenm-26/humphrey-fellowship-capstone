@@ -32,6 +32,7 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
               return;
             }
             addItemFunction(businessId, {
+              quantity,
               itemName,
               cost,
             });
@@ -98,6 +99,7 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
               return;
             }
             addItemFunction(businessId, {
+              quantity,
               itemName,
               cost,
             });
@@ -167,7 +169,6 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
             }
             addItemFunction(businessId, {
               itemName,
-              quantity,
               cost,
             });
           }}
