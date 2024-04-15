@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { Finances, User } from "../models.js";
 import dotenv from "dotenv";
 import { message } from "antd";
+import e from "express";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -96,8 +97,6 @@ router.get("/getFinancesById/:businessId", async (req, res) => {
   }
 });
 
-
-
 router.delete(
   "/deleteItem/:currentView/:businessId/:itemId",
   async (req, res) => {
@@ -163,13 +162,49 @@ const deleteItemFromFinances = async (businessId, currentView, itemId) => {
         expenses: updatedFinances.expenses,
       });
     } else if (currentView === "Sales") {
-      updatedFinances = {
-        ...finances.toObject(),
-        sales: finances.sales.filter((item) => item._id.toString() !== itemId),
-      };
-      await Finances.findByIdAndUpdate(businessId, {
-        sales: updatedFinances.sales,
-      });
+      // need to adjust inventory if its connected
+      const deletedSaleItem = finances.sales.find(
+        (item) => item._id.toString() === itemId
+      );
+
+      const inventoryItem = finances.supplies.find(
+        (item) => item.name === deletedSaleItem.name
+      );
+
+      if (inventoryItem) {
+        inventoryItem.quantity += deletedSaleItem.quantity;
+
+        // Update the supplies array with the new quantity
+        updatedFinances = {
+          ...finances.toObject(),
+          supplies: finances.supplies.map((item) =>
+            item.name === deletedSaleItem.name ? inventoryItem : item
+          ),
+        };
+      }
+      if (inventoryItem) {
+        updatedFinances = {
+          ...finances.toObject(),
+          sales: finances.sales.filter(
+            (item) => item._id.toString() !== itemId
+          ),
+          supplies: updatedFinances.supplies,
+        };
+        await Finances.findByIdAndUpdate(businessId, {
+          sales: updatedFinances.sales,
+          supplies: updatedFinances.supplies,
+        });
+      } else {
+        updatedFinances = {
+          ...finances.toObject(),
+          sales: finances.sales.filter(
+            (item) => item._id.toString() !== itemId
+          ),
+        };
+        await Finances.findByIdAndUpdate(businessId, {
+          sales: updatedFinances.sales,
+        });
+      }
     } else {
       throw new Error("Invalid currentView");
     }
