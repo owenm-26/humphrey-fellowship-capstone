@@ -234,9 +234,8 @@ const Dashboard = ({ handleLogout }) => {
 
   // delete inventory item
   const deleteItem = async (currentView, businessId, id) => {
-    // console.log("deleteItem working..");
-    // return;
-    console.log(currentView, id);
+    // list of valid views
+    const validViews = ["Inventory", "Sales", "Expenses"];
     if (!currentView || !businessId || !id) return;
     try {
       const response = await fetch(
@@ -255,10 +254,20 @@ const Dashboard = ({ handleLogout }) => {
         console.log(data.finances);
         setFinances((prevState) => {
           const updatedFinances = { ...prevState };
-          if (updatedFinances && currentView === "Inventory") {
-            updatedFinances.supplies = updatedFinances.supplies.filter(
-              (item) => item._id !== id
-            );
+          if (updatedFinances && currentView in validViews) {
+            if (currentView === validViews[0]) {
+              updatedFinances.supplies = updatedFinances.supplies.filter(
+                (item) => item._id !== id
+              );
+            } else if (currentView === validViews[1]) {
+              updatedFinances.sales = updatedFinances.sales.filter(
+                (item) => item._id !== id
+              );
+            } else {
+              updatedFinances.expenses = updatedFinances.expenses.filter(
+                (item) => item._id !== id
+              );
+            }
           }
           return updatedFinances;
         });
@@ -341,7 +350,7 @@ const Dashboard = ({ handleLogout }) => {
       width: 40,
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => console.log("Delete Inventory", record._id)}>
+          <a onClick={() => deleteItem(currentView, businessId, record._id)}>
             Delete
           </a>{" "}
           {/* COMPLETE LATER*/}
@@ -383,7 +392,7 @@ const Dashboard = ({ handleLogout }) => {
       width: 40,
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => console.log("Delete Sale:", record._id)}>Delete</a>{" "}
+          <a onClick={() => deleteItem(currentView, businessId, record._id)}>Delete</a>{" "}
           {/* COMPLETE LATER*/}
         </Space>
       ),
