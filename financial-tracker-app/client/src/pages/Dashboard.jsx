@@ -17,13 +17,12 @@ const { TextArea } = Input;
 const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 import CustomTable from "../components/Table";
-import Sider from "antd/es/layout/Sider";
 import InventoryInputForm from "../components/InputForm";
-import {
-  salesColumns,
-  expensesColumns,
-  inventoryColumns,
-} from "../functions/columns.jsx";
+// import {
+//   salesColumns,
+//   expensesColumns,
+//   inventoryColumns,
+// } from "../functions/columns.jsx";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -226,6 +225,172 @@ const Dashboard = ({ handleLogout }) => {
     else throw new Error("currentView not valid");
   };
 
+  //makes date readible
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const options = { year: "numeric", month: "short", day: "2-digit" };
+    return date.toLocaleDateString("en-US", options);
+  };
+
+  // delete inventory item
+  const deleteItem = async (currentView, businessId, id) => {
+    // console.log("deleteItem working..");
+    // return;
+    console.log(currentView, id);
+    if (!currentView || !businessId || !id) return;
+    try {
+      const response = await fetch(
+        `http://localhost:${PORT}/api/dashboard/deleteItem/${currentView}/${businessId}/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        console.log(data.finances);
+        setFinances((prevState) => {
+          const updatedFinances = { ...prevState };
+          if (updatedFinances && currentView === "Inventory") {
+            updatedFinances.supplies = updatedFinances.supplies.filter(
+              (item) => item._id !== id
+            );
+          }
+          return updatedFinances;
+        });
+        return;
+      } else {
+        console.log("Delete Failed");
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // Table Columns
+  const inventoryColumns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      width: 80,
+      align: "center",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      width: 100,
+      align: "center",
+    },
+    {
+      title: "Unit Cost",
+      dataIndex: "buyPrice",
+      width: 70,
+      render: (text) => `$${text}`,
+      align: "center",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      width: 100,
+      render: (text, record) => formatDate(record.date),
+      align: "center",
+    },
+    {
+      title: "Action",
+      key: "action",
+      width: 40,
+      render: (_, record) => (
+        <Space size="middle">
+          <a onClick={() => deleteItem(currentView, businessId, record._id)}>
+            Delete
+          </a>{" "}
+        </Space>
+      ),
+      align: "center",
+    },
+  ];
+
+  const expensesColumns = [
+    {
+      title: "Name",
+      dataIndex: "name",
+      width: 80,
+      align: "center",
+    },
+    {
+      title: "Cost",
+      dataIndex: "cost",
+      width: 70,
+      render: (text) => `$${text}`,
+      align: "center",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      width: 100,
+      render: (text, record) => formatDate(record.date),
+      align: "center",
+    },
+    {
+      title: "Action",
+      key: "action",
+      width: 40,
+      render: (_, record) => (
+        <Space size="middle">
+          <a onClick={() => console.log("Delete Inventory", record._id)}>
+            Delete
+          </a>{" "}
+          {/* COMPLETE LATER*/}
+        </Space>
+      ),
+      align: "center",
+    },
+  ];
+
+  const salesColumns = [
+    {
+      title: "Item Name",
+      dataIndex: "name",
+      width: "80",
+      align: "center",
+    },
+    {
+      title: "Quantity",
+      dataIndex: "quantity",
+      width: "100",
+      align: "center",
+    },
+    {
+      title: "Sale Price",
+      dataIndex: "sellCost",
+      width: "70",
+      render: (text) => `$${text}`,
+      align: "center",
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+      width: "100",
+      align: "center",
+    },
+    {
+      title: "Action",
+      key: "action",
+      width: 40,
+      render: (_, record) => (
+        <Space size="middle">
+          <a onClick={() => console.log("Delete Sale:", record._id)}>Delete</a>{" "}
+          {/* COMPLETE LATER*/}
+        </Space>
+      ),
+      align: "center",
+    },
+  ];
+
   return (
     <Layout>
       <Header
@@ -323,14 +488,4 @@ const Dashboard = ({ handleLogout }) => {
 };
 
 export default Dashboard;
-
-{
-  /* <div>
-      <img className="logo" src={logo} alt="logo" />
-      <h1>Welcome to Dashboard</h1>
-      </h1>
-      
-    </div> */
-}
-
 

@@ -98,4 +98,80 @@ router.get("/getFinancesById/:businessId", async (req, res) => {
 
 
 
+router.delete(
+  "/deleteItem/:currentView/:businessId/:itemId",
+  async (req, res) => {
+    try {
+      const { businessId, currentView, itemId } = req.params;
+
+      const result = await deleteItemFromFinances(
+        businessId,
+        currentView,
+        itemId
+      );
+
+      if (result.status === 200) {
+        res.status(200).json(result);
+      } else {
+        res.status(400).json(result);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ status: 500, message: "Internal server error" });
+    }
+  }
+);
+
+const deleteItemFromFinances = async (businessId, currentView, itemId) => {
+  try {
+    let updatedFinances;
+
+    // Find the finances document by businessId
+    const finances = await Finances.findById(businessId);
+
+    if (!finances) {
+      throw new Error(`Finances not found for businessId: ${businessId}`);
+    }
+
+    // Remove item from the finances based on currentView
+    if (currentView === "Inventory") {
+      updatedFinances = {
+        ...finances.toObject(),
+        supplies: finances.supplies.filter(
+          (item) => item._id.toString() !== itemId
+        ),
+      };
+      await Finances.findByIdAndUpdate(businessId, {
+        supplies: updatedFinances.supplies,
+      });
+    } else if (currentView === "Expenses") {
+      updatedFinances = {
+        ...finances.toObject(),
+        expenses: finances.expenses.filter(
+          (item) => item._id.toString() !== itemId
+        ),
+      };
+      await Finances.findByIdAndUpdate(businessId, {
+        expenses: updatedFinances.expenses,
+      });
+    } else if (currentView === "Sales") {
+      updatedFinances = {
+        ...finances.toObject(),
+        sales: finances.sales.filter((item) => item._id.toString() !== itemId),
+      };
+      await Finances.findByIdAndUpdate(businessId, {
+        sales: updatedFinances.sales,
+      });
+    } else {
+      throw new Error("Invalid currentView");
+    }
+
+    return { status: 200, message: "Item deleted", finances: updatedFinances };
+  } catch (error) {
+    console.error(error);
+    return { status: 500, message: error.message };
+  }
+};
+
+
 export default router;
