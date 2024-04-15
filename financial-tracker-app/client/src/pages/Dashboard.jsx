@@ -18,11 +18,7 @@ const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 import CustomTable from "../components/Table";
 import InventoryInputForm from "../components/InputForm";
-// import {
-//   salesColumns,
-//   expensesColumns,
-//   inventoryColumns,
-// } from "../functions/columns.jsx";
+
 
 const PORT = import.meta.env.VITE_PORT;
 
