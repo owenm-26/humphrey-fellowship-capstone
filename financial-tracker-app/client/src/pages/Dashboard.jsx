@@ -105,9 +105,17 @@ const Dashboard = ({ handleLogout }) => {
           buyPrice: itemData.cost,
           date: itemData.date,
         };
+
+        const newCost = Number(itemData.quantity) * Number(itemData.cost);
+        const expenseToAdd = {
+          name: itemData.itemName,
+          cost: newCost,
+          date: itemData.date,
+        };
         setFinances((prevState) => {
           const newSupplies = [...prevState.supplies, inventoryToAdd];
-          return { ...prevState, supplies: newSupplies };
+          const newExpenses = [...prevState.expenses, expenseToAdd];
+          return { ...prevState, supplies: newSupplies, expenses: newExpenses };
         });
       }
     } catch (error) {
