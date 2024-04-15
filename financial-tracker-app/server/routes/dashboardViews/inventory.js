@@ -48,9 +48,10 @@ router.post("/addInventoryItem/:businessId", async (req, res) => {
     await finances.save();
     res.send({
       status: 200,
-      message: "Success. Inventory added,",
+      message: "Success. Expense added,",
       finances: finances,
     });
+
     return;
   } catch (error) {
     res.send({ status: 400, message: `DIDN'T WORK: ${error}` });

@@ -9,6 +9,7 @@ dotenv.config();
 import authRouter from "./routes/auth.js";
 import dashboardRouter from "./routes/dashboard.js";
 import inventoryRouter from "./routes/dashboardViews/inventory.js";
+import expensesRouter from "./routes/dashboardViews/expenses.js";
 
 const app = express();
 
@@ -32,11 +33,12 @@ app.use(json());
 app.use("/api/auth", authRouter);
 app.use("/api/dashboard", dashboardRouter);
 // for different dashboard views
-app.use('/api/dashboard/inventory', inventoryRouter)
+app.use("/api/dashboard/inventory", inventoryRouter);
+app.use("/api/dashboard/expenses", expensesRouter);
 
 //TO BE IMPLEMENTED
 // app.use('/api/dashboard/sales', salesRouter)
-// app.use('/api/dashboard/expenses', expensesRouter)
+
 
 
 app.listen(PORT, () => {

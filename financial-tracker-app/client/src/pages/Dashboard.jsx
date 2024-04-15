@@ -76,6 +76,35 @@ const Dashboard = ({ handleLogout }) => {
     getFinancesById(businessId);
   }, [businessId, refresh]);
 
+  // add new expense
+  const addExpenseItem = async (businessId, itemData) => {
+    console.log("adding expense...", itemData, businessId);
+    if (!businessId || !itemData) return;
+    itemData["date"] = new Date();
+    try {
+      const response = await fetch(
+        `http://localhost:${PORT}/api/dashboard/expenses/addExpenseItem/${businessId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(itemData),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setRefresh((prevRefresh) => !prevRefresh);
+        setIsLoggingData(false);
+      } else {
+        console.log("Expense log Failed");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   // add new inventory item
   const addInventoryItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;
@@ -191,7 +220,7 @@ const Dashboard = ({ handleLogout }) => {
   const whichAddFunction = (currentView) => {
     if (currentView == "Inventory") return addInventoryItem;
     else if (currentView == "Sales") return null;
-    else if (currentView == "Expenses") return null; //FIX LATER
+    else if (currentView == "Expenses") return addExpenseItem;
     else throw new Error("currentView not valid");
   };
 
@@ -425,6 +454,7 @@ const Dashboard = ({ handleLogout }) => {
               </Button>
               {isLoggingData ? (
                 <InventoryInputForm
+                  currentView={currentView}
                   businessId={businessId}
                   addItemFunction={whichAddFunction(currentView)}
                 />
