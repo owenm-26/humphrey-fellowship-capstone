@@ -146,11 +146,16 @@ const Dashboard = ({ handleLogout }) => {
       );
 
       if (response.ok) {
+        // const data = await response.json();
+        // alert(data.message);
         setIsLoggingData(false);
         setItemName("");
         setQuantity(0);
         setCost(0);
         setRefresh((prevRefresh) => !prevRefresh);
+      } else {
+        const data = await response.json();
+        alert(data.message);
       }
     } catch (error) {
       console.error("Error:", error);

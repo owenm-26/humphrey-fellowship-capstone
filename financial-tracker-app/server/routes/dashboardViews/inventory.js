@@ -19,6 +19,18 @@ router.post("/addInventoryItem/:businessId", async (req, res) => {
       return;
     }
 
+    const alreadyExists = finances.supplies.some((item) => {
+      return item.name === itemName;
+    });
+
+    if (alreadyExists) {
+      res.send({
+        status: 411,
+        message: "Duplicate names not allowed. Item already exists",
+      });
+      return;
+    }
+
     // Check if finances.inventory exists, if not, initialize it as an empty array
     finances.supplies = finances.supplies || [];
     finances.expenses = finances.expenses || [];
