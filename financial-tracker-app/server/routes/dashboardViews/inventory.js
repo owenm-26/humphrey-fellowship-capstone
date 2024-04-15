@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import { Finances, User } from "../../models.js";
+import { v4 as uuid } from "uuid";
 
 // create new inventory item
 router.post("/addInventoryItem/:businessId", async (req, res) => {
@@ -23,11 +24,15 @@ router.post("/addInventoryItem/:businessId", async (req, res) => {
     finances.expenses = finances.expenses || [];
     finances.sales = finances.sales || [];
 
+    //relation to be able to delete together later
+    const relation = uuid();
+
     finances.supplies.push({
       name: itemName,
       quantity: quantity,
       buyPrice: cost,
       date: date,
+      relation: relation,
     });
 
     const calculatedCost = quantity * cost;
@@ -35,6 +40,7 @@ router.post("/addInventoryItem/:businessId", async (req, res) => {
       name: itemName,
       cost: calculatedCost,
       date: date,
+      relation: relation,
     });
 
     //TO DO: add a new category to the sales

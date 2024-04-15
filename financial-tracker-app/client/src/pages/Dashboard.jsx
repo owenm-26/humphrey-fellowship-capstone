@@ -29,6 +29,7 @@ const Dashboard = ({ handleLogout }) => {
   const [userId, setUserId] = useState();
   const [businessId, setBusinessId] = useState();
   const [finances, setFinances] = useState();
+  const [refresh, setRefresh] = useState(false);
 
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState(0);
@@ -73,7 +74,7 @@ const Dashboard = ({ handleLogout }) => {
   useEffect(() => {
     // console.log("businessId:", businessId);
     getFinancesById(businessId);
-  }, [businessId]);
+  }, [businessId, refresh]);
 
   // add new inventory item
   const addInventoryItem = async (businessId, itemData) => {
@@ -99,24 +100,7 @@ const Dashboard = ({ handleLogout }) => {
         setItemName("");
         setQuantity(0);
         setCost(0);
-        const inventoryToAdd = {
-          name: itemData.itemName,
-          quantity: itemData.quantity,
-          buyPrice: itemData.cost,
-          date: itemData.date,
-        };
-
-        const newCost = Number(itemData.quantity) * Number(itemData.cost);
-        const expenseToAdd = {
-          name: itemData.itemName,
-          cost: newCost,
-          date: itemData.date,
-        };
-        setFinances((prevState) => {
-          const newSupplies = [...prevState.supplies, inventoryToAdd];
-          const newExpenses = [...prevState.expenses, expenseToAdd];
-          return { ...prevState, supplies: newSupplies, expenses: newExpenses };
-        });
+        setRefresh((prevRefresh) => !prevRefresh);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -138,7 +122,6 @@ const Dashboard = ({ handleLogout }) => {
       const data = await response.json();
       if (data.status == 200) {
         setFinances(data.finances);
-        // console.log("getFinancesById worked!", data.finances);
         return;
       }
       console.log("Error data:", data);
@@ -152,7 +135,6 @@ const Dashboard = ({ handleLogout }) => {
     if (!token) {
       return;
     }
-    // console.log("token:", token);
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/dashboard/token/${token}`,
@@ -166,7 +148,6 @@ const Dashboard = ({ handleLogout }) => {
 
       const data = await response.json();
       setUserId(data.userId);
-      // console.log("getUserId worked!", data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -188,7 +169,6 @@ const Dashboard = ({ handleLogout }) => {
       const data = await response.json();
       if (data.status == 200) {
         setUserData(data.userData);
-        // console.log("getUserDatabyId worked!", data.userData);
         return;
       }
       console.log("Error data:", data);
@@ -238,8 +218,6 @@ const Dashboard = ({ handleLogout }) => {
 
   // delete inventory item
   const deleteItem = async (currentView, businessId, id) => {
-    // list of valid views
-    const validViews = ["Inventory", "Sales", "Expenses"];
     if (!currentView || !businessId || !id) return;
     try {
       const response = await fetch(
@@ -253,28 +231,10 @@ const Dashboard = ({ handleLogout }) => {
       );
 
       if (response.ok) {
+        setRefresh((prevRefresh) => !prevRefresh);
         const data = await response.json();
         console.log(data.message);
         console.log(data.finances);
-        setFinances((prevState) => {
-          const updatedFinances = { ...prevState };
-          if (updatedFinances && validViews.includes(currentView)) {
-            if (currentView === validViews[0]) {
-              updatedFinances.supplies = updatedFinances.supplies.filter(
-                (item) => item._id !== id
-              );
-            } else if (currentView === validViews[1]) {
-              updatedFinances.sales = updatedFinances.sales.filter(
-                (item) => item._id !== id
-              );
-            } else {
-              updatedFinances.expenses = updatedFinances.expenses.filter(
-                (item) => item._id !== id
-              );
-            }
-          }
-          return updatedFinances;
-        });        
         return;
       } else {
         console.log("Delete Failed");

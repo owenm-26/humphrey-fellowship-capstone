@@ -16,6 +16,7 @@ const financesSchema = new Schema({
       quantity: Number,
       buyPrice: Number,
       date: Date,
+      relation: String,
     },
   ],
   expenses: [
@@ -23,6 +24,7 @@ const financesSchema = new Schema({
       name: String,
       cost: Number,
       date: Date,
+      relation: String,
     },
   ],
   sales: [
