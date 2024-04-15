@@ -1,10 +1,30 @@
 import { useState } from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, Dropdown, Menu } from "antd";
 
-const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
+const DataInputForm = ({
+  inventory,
+  currentView,
+  businessId,
+  addItemFunction,
+}) => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [cost, setCost] = useState(0);
+
+  const inventoryItems = inventory?.map((item, index) => ({
+    key: `${item._id}`,
+    label: `${item.name}`,
+    onClick: () => {
+      console.log(item);
+      setItemName(item.name);
+    },
+  }));
+
+  //helper method for how much is left in inventory
+  const getAvailableQuantity = (itemName) => {
+    const item = inventory.find((item) => item.name === itemName);
+    return item ? item.quantity : 0;
+  };
 
   return (
     <>
@@ -77,71 +97,92 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
         </Form>
       ) : currentView === "Sales" ? (
         // SALES FORM
-        <Form
-          style={{
-            background: "#fff",
-            minHeight: 280,
-            borderRadius: 10,
-            padding: "20px",
-            margin: "40px",
-            width: "calc(100% - 80px)",
-          }}
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={() => {
-            if (itemName.length < 1) {
-              alert("Please give the item a name");
-              return;
-            }
-            if (quantity < 1) {
-              alert("Please give a positive quantity");
-              return;
-            }
-            addItemFunction(businessId, {
-              quantity,
-              itemName,
-              cost,
-            });
-          }}
-        >
-          <Form.Item label="Item Name">
-            <Input
-              type="text"
-              placeholder="Item Name"
-              allowClear
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-              style={{ borderRadius: 5 }}
-            />
-          </Form.Item>
-          <Form.Item label="Quantity">
-            <Input
-              type="number"
-              placeholder="Quantity"
-              allowClear
-              value={quantity}
-              onChange={(e) => setQuantity(parseFloat(e.target.value, 10))}
-              style={{ borderRadius: 5 }}
-            />
-          </Form.Item>
-          <Form.Item label="Price per Unit">
-            <Input
-              type="number"
-              placeholder="Price per Unit"
-              allowClear
-              value={cost}
-              onChange={(e) => setCost(parseFloat(e.target.value, 10))}
-              style={{ borderRadius: 5 }}
-            />
-          </Form.Item>
+        <>
+          <Dropdown
+            menu={{
+              items: inventoryItems,
+              selectable: true,
+              defaultSelectedKeys: ["3"],
+            }}
+            placement="bottom"
+            trigger={"click"}
+          >
+            <Button style={{ marginBottom: "20px" }}>Quick Add </Button>
+          </Dropdown>
+          <Form
+            style={{
+              background: "#fff",
+              minHeight: 280,
+              borderRadius: 10,
+              padding: "20px",
+              margin: "40px",
+              width: "calc(100% - 80px)",
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={() => {
+              if (itemName.length < 1) {
+                alert("Please give the item a name");
+                return;
+              }
+              if (quantity < 1) {
+                alert("Please give a positive quantity");
+                return;
+              }
+              const unitsAvailable = getAvailableQuantity(itemName);
+              if (quantity > unitsAvailable) {
+                alert(
+                  `You can't sell more than ${unitsAvailable} units of ${itemName}`
+                );
+                return;
+              }
+              //implement here
+              addItemFunction(businessId, {
+                quantity,
+                itemName,
+                cost,
+              });
+            }}
+          >
+            <Form.Item label="Item Name">
+              <Input
+                type="text"
+                placeholder="Item Name"
+                allowClear
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+                style={{ borderRadius: 5 }}
+              />
+            </Form.Item>
+            <Form.Item label="Quantity">
+              <Input
+                type="number"
+                placeholder="Quantity"
+                allowClear
+                value={quantity}
+                onChange={(e) => setQuantity(parseFloat(e.target.value, 10))}
+                style={{ borderRadius: 5 }}
+              />
+            </Form.Item>
+            <Form.Item label="Price per Unit">
+              <Input
+                type="number"
+                placeholder="Price per Unit"
+                allowClear
+                value={cost}
+                onChange={(e) => setCost(parseFloat(e.target.value, 10))}
+                style={{ borderRadius: 5 }}
+              />
+            </Form.Item>
 
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Record Sale
-            </Button>
-          </Form.Item>
-        </Form>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Record Sale
+              </Button>
+            </Form.Item>
+          </Form>
+        </>
       ) : (
         // EXPENSE FORM
         <Form
@@ -204,4 +245,4 @@ const InventoryInputForm = ({ currentView, businessId, addItemFunction }) => {
   );
 };
 
-export default InventoryInputForm;
+export default DataInputForm;

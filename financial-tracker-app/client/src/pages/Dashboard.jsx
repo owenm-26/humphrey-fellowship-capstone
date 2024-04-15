@@ -17,8 +17,7 @@ const { TextArea } = Input;
 const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 import CustomTable from "../components/Table";
-import InventoryInputForm from "../components/InputForm";
-
+import DataInputForm from "../components/InputForm";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -473,7 +472,8 @@ const Dashboard = ({ handleLogout }) => {
                 {isLoggingData ? "Close" : "Add"}
               </Button>
               {isLoggingData ? (
-                <InventoryInputForm
+                <DataInputForm
+                  inventory={finances?.supplies}
                   currentView={currentView}
                   businessId={businessId}
                   addItemFunction={whichAddFunction(currentView)}
