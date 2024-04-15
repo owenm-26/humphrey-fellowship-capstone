@@ -247,35 +247,35 @@ const Dashboard = ({ handleLogout }) => {
   // Table Columns
   const inventoryColumns = [
     {
-      title: "Name",
+      title: "Item Name",
       dataIndex: "name",
-      width: 80,
+      width: "20%",
       align: "center",
     },
     {
       title: "Quantity",
       dataIndex: "quantity",
-      width: 100,
+      width: "10%",
       align: "center",
     },
     {
       title: "Unit Cost",
       dataIndex: "buyPrice",
-      width: 70,
+      width: "20%",
       render: (text) => `$${text}`,
       align: "center",
     },
     {
       title: "Date",
       dataIndex: "date",
-      width: 100,
+      width: "20%",
       render: (text, record) => formatDate(record.date),
       align: "center",
     },
     {
       title: "Action",
       key: "action",
-      width: 40,
+      width: "15%",
       render: (_, record) => (
         <Space size="middle">
           <a onClick={() => deleteItem(currentView, businessId, record._id)}>
@@ -289,29 +289,29 @@ const Dashboard = ({ handleLogout }) => {
 
   const expensesColumns = [
     {
-      title: "Name",
+      title: "Cost Name",
       dataIndex: "name",
-      width: 80,
+      width: "20%",
       align: "center",
     },
     {
       title: "Cost",
       dataIndex: "cost",
-      width: 70,
+      width: "15%",
       render: (text) => `$${text}`,
       align: "center",
     },
     {
       title: "Date",
       dataIndex: "date",
-      width: 100,
+      width: "20%",
       render: (text, record) => formatDate(record.date),
       align: "center",
     },
     {
       title: "Action",
       key: "action",
-      width: 40,
+      width: "15%",
       render: (_, record) => (
         <Space size="middle">
           <a onClick={() => deleteItem(currentView, businessId, record._id)}>
@@ -328,36 +328,37 @@ const Dashboard = ({ handleLogout }) => {
     {
       title: "Item Name",
       dataIndex: "name",
-      width: "80",
+      width: "20%",
       align: "center",
     },
     {
       title: "Quantity",
       dataIndex: "quantity",
-      width: "100",
+      width: "10%",
       align: "center",
     },
     {
       title: "Sale Price",
       dataIndex: "sellCost",
-      width: "70",
+      width: "20%",
       render: (text) => `$${text}`,
       align: "center",
     },
     {
       title: "Date",
       dataIndex: "date",
-      width: "100",
+      width: "20%",
       align: "center",
     },
     {
       title: "Action",
       key: "action",
-      width: 40,
+      width: "15%",
       render: (_, record) => (
         <Space size="middle">
-          <a onClick={() => deleteItem(currentView, businessId, record._id)}>Delete</a>{" "}
-          {/* COMPLETE LATER*/}
+          <a onClick={() => deleteItem(currentView, businessId, record._id)}>
+            Delete
+          </a>{" "}
         </Space>
       ),
       align: "center",
