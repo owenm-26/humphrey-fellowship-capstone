@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button, Form, Input, Dropdown, Menu, DatePicker } from "antd";
-import moment from "moment";
+import dayjs from "dayjs";
 
 const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [cost, setCost] = useState(0);
-  const [date, setDate] = useState(moment().format("MM/DD/YYYY"));
+  const [date, setDate] = useState(dayjs().format("MM/DD/YYYY"));
 
   const inventoryItems = data?.map((item, index) => ({
     key: `${item._id}`,
@@ -90,14 +90,13 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
           {/* Date Picker */}
           <Form.Item label="Date">
             <DatePicker
-              defaultValue={moment(date, "MM/DD/YYYY")}
-              // defaultValue={moment(date).format("DD/MM/YYYY")}
+              defaultValue={dayjs(date, "MM/DD/YYYY")}
               onChange={(date, dateString) => {
                 setDate(dateString);
                 console.log(dateString);
               }}
               format="MM/DD/YYYY"
-              style={{ borderRadius: 5 }}
+              style={{ borderRadius: 5, display: "flex", width: "12vw" }}
             ></DatePicker>
           </Form.Item>
 
@@ -149,11 +148,11 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
                 );
                 return;
               }
-              //implement here
               addItemFunction(businessId, {
                 quantity,
                 itemName,
                 cost,
+                date,
               });
             }}
           >
@@ -186,6 +185,18 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
                 onChange={(e) => setCost(parseFloat(e.target.value, 10))}
                 style={{ borderRadius: 5 }}
               />
+            </Form.Item>
+            {/* Date Picker */}
+            <Form.Item label="Date">
+              <DatePicker
+                defaultValue={dayjs(date, "MM/DD/YYYY")}
+                onChange={(date, dateString) => {
+                  setDate(dateString);
+                  console.log(dateString);
+                }}
+                format="MM/DD/YYYY"
+                style={{ borderRadius: 5, display: "flex", width: "12vw" }}
+              ></DatePicker>
             </Form.Item>
 
             <Form.Item>
@@ -223,6 +234,7 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
             addItemFunction(businessId, {
               itemName,
               cost,
+              date,
             });
           }}
         >
@@ -246,6 +258,19 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
               style={{ borderRadius: 5 }}
             />
           </Form.Item>
+          {/* Date Picker */}
+          <Form.Item label="Date">
+            <DatePicker
+              defaultValue={dayjs(date, "MM/DD/YYYY")}
+              onChange={(date, dateString) => {
+                setDate(dateString);
+                console.log(dateString);
+              }}
+              format="MM/DD/YYYY"
+              style={{ borderRadius: 5, display: "flex", width: "12vw" }}
+            ></DatePicker>
+          </Form.Item>
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Record Expense

@@ -78,7 +78,8 @@ const Dashboard = ({ handleLogout }) => {
   // add new sale
   const addSalesItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;
-    itemData["date"] = new Date();
+    const date = new Date(itemData.date);
+    itemData.date = date;
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/dashboard/sales/addSalesItem/${businessId}`,
@@ -105,7 +106,8 @@ const Dashboard = ({ handleLogout }) => {
   // add new expense
   const addExpenseItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;
-    itemData["date"] = new Date();
+    const date = new Date(itemData.date);
+    itemData.date = date;
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/dashboard/expenses/addExpenseItem/${businessId}`,
@@ -132,9 +134,7 @@ const Dashboard = ({ handleLogout }) => {
   // add new inventory item
   const addInventoryItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;
-    console.log(itemData);
     const date = new Date(itemData.date);
-    console.log("itemData.date:", itemData.date, "date:", date);
     itemData.date = date;
     try {
       const response = await fetch(
