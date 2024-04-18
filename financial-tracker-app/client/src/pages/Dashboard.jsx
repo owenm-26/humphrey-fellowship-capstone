@@ -132,7 +132,10 @@ const Dashboard = ({ handleLogout }) => {
   // add new inventory item
   const addInventoryItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;
-    itemData["date"] = new Date();
+    console.log(itemData);
+    const date = new Date(itemData.date);
+    console.log("itemData.date:", itemData.date, "date:", date);
+    itemData.date = date;
     try {
       const response = await fetch(
         `http://localhost:${PORT}/api/dashboard/inventory/addInventoryItem/${businessId}`,
@@ -478,7 +481,7 @@ const Dashboard = ({ handleLogout }) => {
               </Button>
               {isLoggingData ? (
                 <DataInputForm
-                  inventory={finances?.supplies}
+                  data={finances?.supplies}
                   currentView={currentView}
                   businessId={businessId}
                   addItemFunction={whichAddFunction(currentView)}

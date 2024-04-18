@@ -1,17 +1,14 @@
 import { useState } from "react";
-import { Button, Form, Input, Dropdown, Menu } from "antd";
+import { Button, Form, Input, Dropdown, Menu, DatePicker } from "antd";
+import moment from "moment";
 
-const DataInputForm = ({
-  inventory,
-  currentView,
-  businessId,
-  addItemFunction,
-}) => {
+const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState(0);
   const [cost, setCost] = useState(0);
+  const [date, setDate] = useState(moment().format("MM/DD/YYYY"));
 
-  const inventoryItems = inventory?.map((item, index) => ({
+  const inventoryItems = data?.map((item, index) => ({
     key: `${item._id}`,
     label: `${item.name}`,
     onClick: () => {
@@ -22,7 +19,7 @@ const DataInputForm = ({
 
   //helper method for how much is left in inventory
   const getAvailableQuantity = (itemName) => {
-    const item = inventory.find((item) => item.name === itemName);
+    const item = data.find((item) => item.name === itemName);
     return item ? item.quantity : 0;
   };
 
@@ -55,6 +52,7 @@ const DataInputForm = ({
               quantity,
               itemName,
               cost,
+              date: date,
             });
           }}
         >
@@ -87,6 +85,20 @@ const DataInputForm = ({
               onChange={(e) => setCost(parseFloat(e.target.value, 10))}
               style={{ borderRadius: 5 }}
             />
+          </Form.Item>
+
+          {/* Date Picker */}
+          <Form.Item label="Date">
+            <DatePicker
+              defaultValue={moment(date, "MM/DD/YYYY")}
+              // defaultValue={moment(date).format("DD/MM/YYYY")}
+              onChange={(date, dateString) => {
+                setDate(dateString);
+                console.log(dateString);
+              }}
+              format="MM/DD/YYYY"
+              style={{ borderRadius: 5 }}
+            ></DatePicker>
           </Form.Item>
 
           <Form.Item>
