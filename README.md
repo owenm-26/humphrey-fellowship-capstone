@@ -4,7 +4,7 @@ A financial tracking app for microvendors to track their expenses and sales to a
 # Demo
 [Video Walkthrough](https://drive.google.com/file/d/13l9L8sjzHtablX2nHJI-AAPQDThATLUJ/view?usp=sharing)
 
-<img src="./demo-assets/Dashboard.png" alt="Dashboard.png" height="500px">
+<img src="./demo-assets/Dashboard.png" alt="Dashboard.png" height="500px" width="auto">
 
 # Features
 - User Authentication/Authorization
