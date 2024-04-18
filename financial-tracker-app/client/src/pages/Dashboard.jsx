@@ -18,6 +18,7 @@ const { Header, Footer, Content } = Layout;
 import "../styles/dashboard.css";
 import CustomTable from "../components/Table";
 import DataInputForm from "../components/InputForm";
+import dayjs from "dayjs";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -326,6 +327,9 @@ const Dashboard = ({ handleLogout }) => {
       width: "20%",
       render: (text, record) => formatDate(record.date),
       align: "center",
+      defaultSortOrder: "descend",
+      sorter: (a, b) =>
+        new Date(a.date).getTime() / 1000 - new Date(b.date).getTime() / 1000, //convert into a numerical format that we can sort on
     },
     {
       title: "Action",
@@ -362,6 +366,9 @@ const Dashboard = ({ handleLogout }) => {
       width: "20%",
       render: (text, record) => formatDate(record.date),
       align: "center",
+      defaultSortOrder: "descend",
+      sorter: (a, b) =>
+        new Date(a.date).getTime() / 1000 - new Date(b.date).getTime() / 1000, //convert into a numerical format that we can sort on
     },
     {
       title: "Action",
@@ -405,6 +412,9 @@ const Dashboard = ({ handleLogout }) => {
       render: (text, record) => formatDate(record.date),
       width: "20%",
       align: "center",
+      defaultSortOrder: "descend",
+      sorter: (a, b) =>
+        new Date(a.date).getTime() / 1000 - new Date(b.date).getTime() / 1000, //convert into a numerical format that we can sort on
     },
     {
       title: "Action",
