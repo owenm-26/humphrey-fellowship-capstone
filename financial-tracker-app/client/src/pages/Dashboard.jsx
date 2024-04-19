@@ -19,6 +19,7 @@ import "../styles/dashboard.css";
 import CustomTable from "../components/Table";
 import DataInputForm from "../components/InputForm";
 import dayjs from "dayjs";
+import DownloadReport from "../components/DownloadReport";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -510,14 +511,10 @@ const Dashboard = ({ handleLogout }) => {
           <Row style={{ justifyContent: "center", marginTop: "80px" }}>
             {/* GENERATE REPORT */}
             <Col span={12}>
-              <Button
-                type="primary"
-                icon={<DownloadOutlined />}
-                size={"large"}
-                onClick={generateReport}
-              >
-                Generate Report
-              </Button>
+              <DownloadReport
+                data={whichDataFunction(currentView)}
+                currenView={currentView}
+              />
             </Col>
           </Row>
         </div>
