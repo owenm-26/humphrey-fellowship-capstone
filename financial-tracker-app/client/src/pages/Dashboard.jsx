@@ -513,7 +513,7 @@ const Dashboard = ({ handleLogout }) => {
             <Col span={12}>
               <DownloadReport
                 data={whichDataFunction(currentView)}
-                currenView={currentView}
+                currentView={currentView}
               />
             </Col>
           </Row>
