@@ -1,12 +1,19 @@
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { Button, DatePicker, Form } from "antd";
+import { Button, DatePicker } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 // eslint-disable-next-line react/prop-types
 function DownloadReport({ data, currentView }) {
-  const [startDate, setStartDate] = useState(dayjs().format("MM/DD/YYYY")); //the earlier end of range
+  const [startDate, setStartDate] = useState(
+    dayjs().subtract(1, "month").format("MM/DD/YYYY")
+  ); //the earlier end of range (default 1 month)
   const [endDate, setEndDate] = useState(dayjs().format("MM/DD/YYYY")); // the more recent end of range
 
   const processedData = data?.map(({ relation, _id, ...rest }) => rest);
@@ -36,7 +43,14 @@ function DownloadReport({ data, currentView }) {
       }));
     }
 
-    const filteredData = renamedData.filter((row) => {
+    const timelyData = renamedData.filter((item) => {
+      const itemDate = dayjs(item.Date, "MM/DD/YYYY");
+      return (
+        itemDate.isSameOrAfter(dayjs(startDate, "MM/DD/YYYY")) &&
+        itemDate.isSameOrBefore(dayjs(endDate, "MM/DD/YYYY"))
+      );
+    });
+    const filteredData = timelyData.filter((row) => {
       return Object.keys(row).some((key) => {
         const value = row[key];
         return value !== "" && value !== undefined;
@@ -97,7 +111,7 @@ function DownloadReport({ data, currentView }) {
   };
 
   return (
-    <>
+    <div style={{ display: "block" }}>
       <DatePicker
         defaultValue={dayjs(startDate, "MM/DD/YYYY")}
         onChange={(date, dateString) => {
@@ -105,7 +119,12 @@ function DownloadReport({ data, currentView }) {
           console.log(dateString);
         }}
         format="MM/DD/YYYY"
-        style={{ borderRadius: 5, width: "12vw", margin: "2vw" }}
+        style={{
+          borderRadius: 5,
+          width: "12vw",
+          marginRight: "2vw",
+          marginBottom: "2vh",
+        }}
       />
       <DatePicker
         defaultValue={dayjs(endDate, "MM/DD/YYYY")}
@@ -116,9 +135,10 @@ function DownloadReport({ data, currentView }) {
         format="MM/DD/YYYY"
         style={{ borderRadius: 5, width: "12vw", margin: "2vw 0 vh" }}
       />
-
-      <Button onClick={handleDownload}>Download {currentView} Report</Button>
-    </>
+      <Button style={{ minWidth: "250px" }} onClick={handleDownload}>
+        Download {currentView} Report
+      </Button>
+    </div>
   );
 }
 
