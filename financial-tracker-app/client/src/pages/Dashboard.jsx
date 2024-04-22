@@ -434,6 +434,7 @@ const Dashboard = ({ handleLogout }) => {
 
   return (
     <Layout>
+      <h1>HELLO</h1>
       <Header
         style={{
           display: "flex",
@@ -477,7 +478,6 @@ const Dashboard = ({ handleLogout }) => {
             <Col
               style={{
                 backgroundColor: "aliceblue",
-
                 margin: 5,
               }}
               span={24}
@@ -498,11 +498,12 @@ const Dashboard = ({ handleLogout }) => {
                   addItemFunction={whichAddFunction(currentView)}
                 />
               ) : (
-                <div className="custom-table">
+                <div className="custom-table" >
                   <CustomTable
                     className="customTable"
                     columns={whichColumnFunction(currentView)}
                     data={whichDataFunction(currentView)}
+                    style={{minHeight: "100vh"}}
                   />
                 </div>
               )}
