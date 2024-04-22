@@ -137,14 +137,14 @@ const deleteItemFromFinances = async (businessId, currentView, itemId) => {
       const deletedItemRelation = finances.supplies.find(
         (item) => item._id.toString() === itemId
       )?.relation;
-
+      
       updatedFinances = {
         ...finances.toObject(),
         supplies: finances.supplies.filter(
-          (item) => item._id.toString() !== itemId
+          (item) => item._id?.toString() !== itemId
         ),
         expenses: finances.expenses.filter(
-          (item) => item.relation.toString() !== deletedItemRelation
+          (item) => item.relation?.toString() !== deletedItemRelation
         ),
       };
       await Finances.findByIdAndUpdate(businessId, {

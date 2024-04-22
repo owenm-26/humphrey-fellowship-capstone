@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Button, Form, Input, Dropdown, Menu, DatePicker } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Dropdown,
+  Menu,
+  DatePicker,
+  InputNumber,
+} from "antd";
 import dayjs from "dayjs";
 
 const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
@@ -72,19 +80,33 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
               placeholder="Quantity"
               allowClear
               value={quantity}
-              onChange={(e) => setQuantity(parseFloat(e.target.value, 10))}
+              onChange={(e) => 
+                  setQuantity(parseInt(e.target.value, 10))
+                
+              }
               style={{ borderRadius: 5 }}
             />
           </Form.Item>
           <Form.Item label="Cost per Unit">
-            <Input
-              type="number"
+            <InputNumber
+              style={{ borderRadius: 5, display: "flex", width: "100%" }}
+              placeholder="Cost per Unit"
+              min="0"
+              step="1"
+              onChange={(value) => {
+                if (value !== null) {
+                  setCost(parseFloat(value.toFixed(2)));
+                }
+              }}
+            />
+            {/* <Input
+              type="text" //to allow decimals
               placeholder="Cost per Unit"
               allowClear
               value={cost}
-              onChange={(e) => setCost(parseFloat(e.target.value, 10))}
-              style={{ borderRadius: 5 }}
-            />
+              onChange={}
+              
+            /> */}
           </Form.Item>
 
           {/* Date Picker */}
