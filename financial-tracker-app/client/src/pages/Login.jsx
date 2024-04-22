@@ -85,7 +85,7 @@ const Login = ({ handleLogin, setUserInfo }) => {
             rules={[
               {
                 required: true,
-                message: "Please input your Username!",
+                message: "Please input your email!",
               },
             ]}
             style={{ width: "5w" }}
