@@ -1,15 +1,18 @@
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { Button } from "antd";
+import { Button, DatePicker, Form } from "antd";
 import dayjs from "dayjs";
+import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 function DownloadReport({ data, currentView }) {
+  const [startDate, setStartDate] = useState(dayjs().format("MM/DD/YYYY")); //the earlier end of range
+  const [endDate, setEndDate] = useState(dayjs().format("MM/DD/YYYY")); // the more recent end of range
+
   const processedData = data?.map(({ relation, _id, ...rest }) => rest);
   const preprocessData = (data, currentView) => {
     let renamedData;
     // Rename and reorder columns
-    console.log("data", data);
     if (currentView === "Inventory") {
       renamedData = processedData.map((item) => ({
         Date: dayjs(item["date"]).format("MM/DD/YYYY"),
@@ -94,7 +97,28 @@ function DownloadReport({ data, currentView }) {
   };
 
   return (
-    <Button onClick={handleDownload}>Download {currentView} Report</Button>
+    <>
+      <DatePicker
+        defaultValue={dayjs(startDate, "MM/DD/YYYY")}
+        onChange={(date, dateString) => {
+          setStartDate(dateString);
+          console.log(dateString);
+        }}
+        format="MM/DD/YYYY"
+        style={{ borderRadius: 5, width: "12vw", margin: "2vw" }}
+      />
+      <DatePicker
+        defaultValue={dayjs(endDate, "MM/DD/YYYY")}
+        onChange={(date, dateString) => {
+          setEndDate(dateString);
+          console.log(dateString);
+        }}
+        format="MM/DD/YYYY"
+        style={{ borderRadius: 5, width: "12vw", margin: "2vw 0 vh" }}
+      />
+
+      <Button onClick={handleDownload}>Download {currentView} Report</Button>
+    </>
   );
 }
 

@@ -508,7 +508,7 @@ const Dashboard = ({ handleLogout }) => {
               )}
             </Col>
           </Row>
-          <Row style={{ justifyContent: "center", marginTop: "80px" }}>
+          <Row style={{ justifyContent: "center", marginTop: "50px" }}>
             {/* GENERATE REPORT */}
             <Col span={12}>
               <DownloadReport
