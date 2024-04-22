@@ -6,6 +6,7 @@ import { useState } from "react";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
 
+
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 
@@ -67,6 +68,10 @@ function DownloadReport({ data, currentView }) {
 
   // creates excel sheet and downloads
   const handleDownload = () => {
+    if (dayjs(endDate, "MM/DD/YYYY").isBefore(dayjs(startDate, "MM/DD/YYYY"))) {
+      alert("Invalid time window. Start date cannot be after end date.");
+      return;
+    }
     const readyData = preprocessData(data, currentView);
     if (!readyData) {
       alert("No data to download");
