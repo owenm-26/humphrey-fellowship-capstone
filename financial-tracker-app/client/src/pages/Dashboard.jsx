@@ -434,7 +434,6 @@ const Dashboard = ({ handleLogout }) => {
 
   return (
     <Layout>
-      <h1>HELLO</h1>
       <Header
         style={{
           display: "flex",
