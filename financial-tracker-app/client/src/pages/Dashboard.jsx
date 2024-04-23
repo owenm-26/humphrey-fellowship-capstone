@@ -384,7 +384,6 @@ setIsLoggingData(false);
           <a onClick={() => deleteItem(currentView, businessId, record._id)}>
             Delete
           </a>{" "}
-          {/* COMPLETE LATER*/}
         </Space>
       ),
       align: "center",
@@ -467,17 +466,17 @@ setIsLoggingData(false);
           {userData ? userData.business : ""}
         </h2>
       </Header>
-      <Content style={{ padding: "0 48px" }}>
+      <Content style={{ padding: "0 0px", minHeight:"100vh"}}>
         <div
           style={{
             background: colorBgContainer,
             minHeight: 280,
             padding: 24,
             borderRadius: borderRadiusLG,
-            height: "100vh",
+            height: "auto",
           }}
         >
-          <Row style={{ justifyContent: "center", height: "70vh" }}>
+          <Row style={{ justifyContent: "center" }}>
             <Col
               style={{
                 backgroundColor: "aliceblue",
@@ -512,7 +511,7 @@ setIsLoggingData(false);
               )}
             </Col>
           </Row>
-          <Row style={{ justifyContent: "center", marginTop: "80px" }}>
+          <Row style={{ justifyContent: "center", marginTop: "3%" }}>
             {/* GENERATE REPORT */}
             <Col span={12}>
               <DownloadReport

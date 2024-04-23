@@ -5,6 +5,7 @@ import { Table } from "antd";
 const CustomTable = ({ columns, data }) => {
   return (
     <Table
+    size="small"
       columns={columns}
       // eslint-disable-next-line react/prop-types
       dataSource={data?.map((expense, index) => ({
@@ -13,8 +14,10 @@ const CustomTable = ({ columns, data }) => {
       }))}
       pagination={false}
       scroll={{
-        y: 240,
+        y: 400,
       }}
+      style={{ height: '400px' }}
+
     />
   );
 };

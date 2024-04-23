@@ -138,7 +138,8 @@ function DownloadReport({ data, currentView }) {
           console.log(dateString);
         }}
         format="MM/DD/YYYY"
-        style={{ borderRadius: 5, width: "12vw", margin: "2vw 0 vh" }}
+        style={{ borderRadius: 5, width: "12vw",  marginRight: "2vw",
+        marginBottom: "2vh" }}
       />
       <Button style={{ minWidth: "250px" }} onClick={handleDownload}>
         Download {currentView} Report
