@@ -323,7 +323,7 @@ setIsLoggingData(false);
       title: "Unit Cost",
       dataIndex: "buyPrice",
       width: "20%",
-      render: (text) => `$${text}`,
+      render: (text) => `$${text.toFixed(2)}`,
       align: "center",
     },
     {
@@ -362,7 +362,7 @@ setIsLoggingData(false);
       title: "Cost",
       dataIndex: "cost",
       width: "15%",
-      render: (text) => `$${text}`,
+      render: (text) => `$${text.toFixed(2)}`,
       align: "center",
     },
     {
@@ -407,7 +407,7 @@ setIsLoggingData(false);
       title: "Sale Price",
       dataIndex: "sellCost",
       width: "20%",
-      render: (text) => `$${text}`,
+      render: (text) => `$${text.toFixed(2)}`,
       align: "center",
     },
     {

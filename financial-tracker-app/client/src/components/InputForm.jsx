@@ -102,7 +102,26 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
               style={{ borderRadius: 5, display: "flex", width: "100%" }}
               placeholder="Cost per Unit"   
               value={cost}
-              onChange={(val) => {if(val>0)setCost(val)}}
+              // formatter={(value) => {
+              //   if (value) {
+              //     return `${parseFloat(value).toFixed(2)}`;
+              //   }
+              //   return value;
+              // }}
+              // parser={(value) => {
+              //   // Remove non-digit characters and parse to float
+              //   return parseFloat(value.replace(/\$\s?|(,*)/g, ''));
+              // }}
+              // onChange={(value) => {
+              //   if (value > 0) {
+              //     setCost(value);
+              //   }
+              // }}
+              onChange={(val) =>  {
+                const formattedValue = Number.parseFloat(val).toFixed(2);
+                setCost(formattedValue);
+              }}
+            
             />
           </Form.Item>
 
