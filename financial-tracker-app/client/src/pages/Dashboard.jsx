@@ -77,6 +77,10 @@ const Dashboard = ({ handleLogout }) => {
     getFinancesById(businessId);
   }, [businessId, refresh]);
 
+  useEffect(() =>{
+setIsLoggingData(false);
+  },[currentView])
+
   // add new sale
   const addSalesItem = async (businessId, itemData) => {
     if (!businessId || !itemData) return;

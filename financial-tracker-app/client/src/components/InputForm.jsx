@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
   const [itemName, setItemName] = useState("");
   const [quantity, setQuantity] = useState(0);
-  const [cost, setCost] = useState(0);
+  const [cost, setCost] = useState();
   const [date, setDate] = useState(dayjs().format("MM/DD/YYYY"));
 
   const inventoryItems = data?.map((item, index) => ({
@@ -56,6 +56,10 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
               alert("Please give a positive quantity");
               return;
             }
+            if(cost < 0 || isNaN(cost) || cost ==  null){
+              alert("Cost cannot be negative or null. Please enter gains in Sales.")
+              return;
+            }
             addItemFunction(businessId, {
               quantity,
               itemName,
@@ -87,26 +91,19 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
               style={{ borderRadius: 5 }}
             />
           </Form.Item>
-          <Form.Item label="Cost per Unit">
+          <Form.Item label="Cost per Unit" rules={[
+              {
+                required: true,
+                message: "Please input a positive number!",
+                
+              },
+            ]}>
             <InputNumber
               style={{ borderRadius: 5, display: "flex", width: "100%" }}
-              placeholder="Cost per Unit"
-              min="0"
-              step="1"
-              onChange={(value) => {
-                if (value !== null) {
-                  setCost(parseFloat(value.toFixed(2)));
-                }
-              }}
-            />
-            {/* <Input
-              type="text" //to allow decimals
-              placeholder="Cost per Unit"
-              allowClear
+              placeholder="Cost per Unit"   
               value={cost}
-              onChange={}
-              
-            /> */}
+              onChange={(val) => {if(val>0)setCost(val)}}
+            />
           </Form.Item>
 
           {/* Date Picker */}
@@ -170,6 +167,12 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
                 );
                 return;
               }
+
+              if(cost < 0 || isNaN(cost) || cost ==  null){
+                alert("Price cannot be negative or null.")
+                return;
+              }
+              console.log(cost)
               addItemFunction(businessId, {
                 quantity,
                 itemName,
@@ -199,14 +202,12 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
               />
             </Form.Item>
             <Form.Item label="Price per Unit">
-              <Input
-                type="number"
-                placeholder="Price per Unit"
-                allowClear
-                value={cost}
-                onChange={(e) => setCost(parseFloat(e.target.value, 10))}
-                style={{ borderRadius: 5 }}
-              />
+            <InputNumber
+              style={{ borderRadius: 5, display: "flex", width: "100%" }}
+              placeholder="Price per Unit"   
+              value={cost}
+              onChange={(val) => {if(val>0)setCost(val)}}
+            />
             </Form.Item>
             {/* Date Picker */}
             <Form.Item label="Date">
@@ -247,12 +248,11 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
               alert("Please give the expense a name");
               return;
             }
-            if (cost < 0) {
-              alert(
-                "Please give a positive cost. Enter gains in the sales category."
-              );
+            if(cost < 0 || isNaN(cost) || cost ==  null){
+              alert("Cost cannot be negative or null. Please enter gains in Sales.")
               return;
             }
+            console.log(cost)
             addItemFunction(businessId, {
               itemName,
               cost,
@@ -271,13 +271,11 @@ const DataInputForm = ({ data, currentView, businessId, addItemFunction }) => {
             />
           </Form.Item>
           <Form.Item label="Total Cost ">
-            <Input
-              type="number"
-              placeholder="Total Cost"
-              allowClear
+          <InputNumber
+              style={{ borderRadius: 5, display: "flex", width: "100%" }}
+              placeholder="Total Cost"   
               value={cost}
-              onChange={(e) => setCost(parseFloat(e.target.value, 10))}
-              style={{ borderRadius: 5 }}
+              onChange={(val) => {if(val>0)setCost(val)}}
             />
           </Form.Item>
           {/* Date Picker */}
