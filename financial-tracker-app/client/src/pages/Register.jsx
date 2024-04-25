@@ -80,7 +80,7 @@ const Register = (/*{handleRegister}*/) => {
           autoComplete="off"
         >
           <Form.Item
-            label="Username"
+            label="Name"
             name="username"
             rules={[
               {
