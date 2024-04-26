@@ -456,6 +456,7 @@ setIsLoggingData(false);
             { key: "Inventory", label: "Inventory" },
             { key: "Sales", label: "Sales" },
             { key: "Expenses", label: "Expenses" },
+            { key: "Help", label: "Help" }
           ]}
           style={{
             flex: 1,
@@ -476,7 +477,7 @@ setIsLoggingData(false);
             height: "auto",
           }}
         >
-          <Row style={{ justifyContent: "center" }}>
+          { currentView !== "Help"? (<><Row style={{ justifyContent: "center" }}>
             <Col
               style={{
                 backgroundColor: "aliceblue",
@@ -519,7 +520,7 @@ setIsLoggingData(false);
                 currentView={currentView}
               />
             </Col>
-          </Row>
+          </Row></>): <p>Help</p>}
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
