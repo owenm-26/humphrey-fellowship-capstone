@@ -12,6 +12,7 @@ import {
   Menu,
   Typography,
   Space,
+  Tag,
 } from "antd";
 const { TextArea } = Input;
 const { Header, Footer, Content } = Layout;
@@ -20,6 +21,7 @@ import CustomTable from "../components/Table";
 import DataInputForm from "../components/InputForm";
 import dayjs from "dayjs";
 import DownloadReport from "../components/DownloadReport";
+import HelpContent from "../components/HelpContent";
 
 const PORT = import.meta.env.VITE_PORT;
 
@@ -456,7 +458,7 @@ setIsLoggingData(false);
             { key: "Inventory", label: "Inventory" },
             { key: "Sales", label: "Sales" },
             { key: "Expenses", label: "Expenses" },
-            { key: "Help", label: "Help" }
+            { key: "Help", label: "Help" },
           ]}
           style={{
             flex: 1,
@@ -467,7 +469,7 @@ setIsLoggingData(false);
           {userData ? userData.business : ""}
         </h2>
       </Header>
-      <Content style={{ padding: "0 0px", minHeight:"100vh"}}>
+      <Content style={{ padding: "0 0px", minHeight: "100vh" }}>
         <div
           style={{
             background: colorBgContainer,
@@ -477,85 +479,56 @@ setIsLoggingData(false);
             height: "auto",
           }}
         >
-          { currentView !== "Help"? (<><Row style={{ justifyContent: "center" }}>
-            <Col
-              style={{
-                backgroundColor: "aliceblue",
-                margin: 5,
-              }}
-              span={24}
-            >
-              {/* Dashboard Body */}{" "}
-              <Typography.Title level={1} className="section-header">
-                {" "}
-                {currentView}
-              </Typography.Title>
-              <Button onClick={() => setIsLoggingData(!isLoggingData)}>
-                {isLoggingData ? "Close" : "Add"}
-              </Button>
-              {isLoggingData ? (
-                <DataInputForm
-                  data={finances?.supplies}
-                  currentView={currentView}
-                  businessId={businessId}
-                  addItemFunction={whichAddFunction(currentView)}
-                />
-              ) : (
-                <div className="custom-table" >
-                  <CustomTable
-                    className="customTable"
-                    columns={whichColumnFunction(currentView)}
-                    data={whichDataFunction(currentView)}
-                    style={{minHeight: "100vh"}}
-                  />
-                </div>
-              )}
-            </Col>
-          </Row>
-          <Row style={{ justifyContent: "center", marginTop: "3%" }}>
-            {/* GENERATE REPORT */}
-            <Col span={12}>
-              <DownloadReport
-                data={whichDataFunction(currentView)}
-                currentView={currentView}
-              />
-            </Col>
-          </Row></>): <Row style={{ justifyContent: "center" }}>
-          <Col
-              style={{
-                backgroundColor: "aliceblue",
-                margin: 5,
-              }}
-              span={24}
-            >
-              {/* Dashboard Body */}{" "}
-              <Typography.Title level={1} className="section-header">
-                {" "}
-                {currentView}
-              </Typography.Title>
-              {/* Top Row */}
-              <Row style={{ justifyContent: "center", marginTop: "3%" }}>
-                <Col span={8}>
-                  <Typography.Title level={3}>How to Use App</Typography.Title>
-                </Col>
-                <Col span={8}>
-                  <Typography.Title level={3}>Understanding Financial Planning</Typography.Title>
-                </Col>
-                <Col span={8}>
-                  <Typography.Title level={3}>Understanding Managing Risk</Typography.Title>
+          {currentView !== "Help" ? (
+            <>
+              <Row style={{ justifyContent: "center" }}>
+                <Col
+                  style={{
+                    backgroundColor: "aliceblue",
+                    margin: 5,
+                  }}
+                  span={24}
+                >
+                  {/* Dashboard Body */}{" "}
+                  <Typography.Title level={1} className="section-header">
+                    {" "}
+                    {currentView}
+                  </Typography.Title>
+                  <Button onClick={() => setIsLoggingData(!isLoggingData)}>
+                    {isLoggingData ? "Close" : "Add"}
+                  </Button>
+                  {isLoggingData ? (
+                    <DataInputForm
+                      data={finances?.supplies}
+                      currentView={currentView}
+                      businessId={businessId}
+                      addItemFunction={whichAddFunction(currentView)}
+                    />
+                  ) : (
+                    <div className="custom-table">
+                      <CustomTable
+                        className="customTable"
+                        columns={whichColumnFunction(currentView)}
+                        data={whichDataFunction(currentView)}
+                        style={{ minHeight: "100vh" }}
+                      />
+                    </div>
+                  )}
                 </Col>
               </Row>
-              {/* Bottom Row */}
               <Row style={{ justifyContent: "center", marginTop: "3%" }}>
-              <Col span={12}>
-                <Typography.Title level={3}>Strategies to grow your business</Typography.Title>
-              </Col>
-              <Col span={12}>
-                <Typography.Title level={3}>Benefits of operating a business account</Typography.Title>
-              </Col>
-                </Row>
-              </Col>
-              </Row>}
+                {/* GENERATE REPORT */}
+                <Col span={12}>
+                  <DownloadReport
+                    data={whichDataFunction(currentView)}
+                    currentView={currentView}
+                  />
+                </Col>
+              </Row>
+            </>
+          ) : (
+            <HelpContent currentView={currentView} />
+          )}
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
