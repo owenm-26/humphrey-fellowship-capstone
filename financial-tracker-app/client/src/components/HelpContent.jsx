@@ -7,6 +7,7 @@ function HelpContent({ currentView }) {
         style={{
           backgroundColor: "aliceblue",
           margin: 5,
+          paddingBottom: "6vh",
         }}
         span={24}
       >
@@ -34,7 +35,7 @@ function HelpContent({ currentView }) {
             <Typography.Paragraph
               style={{
                 fontSize: "medium",
-                textAlign: "left",
+                textAlign: "center",
                 marginLeft: "1vw",
                 marginRight: "1vw",
               }}
