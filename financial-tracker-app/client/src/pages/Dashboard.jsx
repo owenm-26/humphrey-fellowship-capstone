@@ -486,7 +486,7 @@ setIsLoggingData(false);
               span={24}
             >
               {/* Dashboard Body */}{" "}
-              <Typography.Title level={2} className="section-header">
+              <Typography.Title level={1} className="section-header">
                 {" "}
                 {currentView}
               </Typography.Title>
@@ -520,7 +520,42 @@ setIsLoggingData(false);
                 currentView={currentView}
               />
             </Col>
-          </Row></>): <p>Help</p>}
+          </Row></>): <Row style={{ justifyContent: "center" }}>
+          <Col
+              style={{
+                backgroundColor: "aliceblue",
+                margin: 5,
+              }}
+              span={24}
+            >
+              {/* Dashboard Body */}{" "}
+              <Typography.Title level={1} className="section-header">
+                {" "}
+                {currentView}
+              </Typography.Title>
+              {/* Top Row */}
+              <Row style={{ justifyContent: "center", marginTop: "3%" }}>
+                <Col span={8}>
+                  <Typography.Title level={3}>How to Use App</Typography.Title>
+                </Col>
+                <Col span={8}>
+                  <Typography.Title level={3}>Understanding Financial Planning</Typography.Title>
+                </Col>
+                <Col span={8}>
+                  <Typography.Title level={3}>Understanding Managing Risk</Typography.Title>
+                </Col>
+              </Row>
+              {/* Bottom Row */}
+              <Row style={{ justifyContent: "center", marginTop: "3%" }}>
+              <Col span={12}>
+                <Typography.Title level={3}>Strategies to grow your business</Typography.Title>
+              </Col>
+              <Col span={12}>
+                <Typography.Title level={3}>Benefits of operating a business account</Typography.Title>
+              </Col>
+                </Row>
+              </Col>
+              </Row>}
         </div>
       </Content>
       <Footer style={{ textAlign: "center" }}>
