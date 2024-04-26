@@ -31,12 +31,35 @@ function HelpContent({ currentView }) {
             <Typography.Title level={3} style={{ textDecoration: "underline" }}>
               How to Use App
             </Typography.Title>
-            <Typography.Paragraph style={{ fontSize: "medium" }}>
-              Add an item to your{" "}
-              <Tag style={{ fontSize: "medium" }}>Inventory</Tag>
+            <Typography.Paragraph
+              style={{
+                fontSize: "medium",
+                textAlign: "left",
+                marginLeft: "1vw",
+                marginRight: "1vw",
+              }}
+            >
+              <b>
+                Add an item to your{" "}
+                <Tag style={{ fontSize: "medium" }}>Inventory</Tag>
+              </b>
               <br />
-              Create a sale from your Inventory in{" "}
-              <Tag style={{ fontSize: "medium" }}>Sales</Tag>
+              automatically creates corresponding expense
+              <br />
+              <br />
+              <b>
+                Create a sale from your Inventory in{" "}
+                <Tag style={{ fontSize: "medium" }}>Sales</Tag>{" "}
+              </b>
+              <br />
+              Doing so subtracts the amount of item sold from the inventory
+              <br />
+              <br />
+              <b>
+                Add an expense unrelated to inventory in
+                <Tag style={{ fontSize: "medium" }}>Expenses</Tag>
+                <br />
+              </b>
             </Typography.Paragraph>
           </Col>
           <Col
