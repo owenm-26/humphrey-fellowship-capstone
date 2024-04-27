@@ -17,6 +17,7 @@ const app = express();
 const uri = process.env.MONGO_URI;
 const db = process.env.DB_NAME;
 const PORT = process.env.PORT;
+const isProduction = process.env.NODE_ENV === "production";
 
 // MongoDB connection
 connect(uri, {
@@ -38,9 +39,9 @@ app.use("/api/dashboard/inventory", inventoryRouter);
 app.use("/api/dashboard/expenses", expensesRouter);
 app.use("/api/dashboard/sales", salesRouter);
 
-
-
-
+if (isProduction) {
+  app.use(express.static("build"));
+}
 
 
 app.listen(PORT, () => {
