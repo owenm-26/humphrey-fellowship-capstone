@@ -1,7 +1,7 @@
 import express from "express";
 import pkg from "body-parser";
 const { json } = pkg;
-import { connect, connection } from "mongoose";
+import { connect } from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
@@ -39,18 +39,18 @@ app.use("/api/dashboard/inventory", inventoryRouter);
 app.use("/api/dashboard/expenses", expensesRouter);
 app.use("/api/dashboard/sales", salesRouter);
 
-// Health check route
-app.get("/api/health", (req, res) => {
-  if (connection.readyState === 1) {
-    res.status(200).json({ message: "MongoDB connection is established." });
-  } else {
-    res.status(500).json({ message: "MongoDB connection is not established." });
-  }
-});
+// // Health check route
+// app.get("/api/health", (req, res) => {
+//   if (connection.readyState === 1) {
+//     res.status(200).json({ message: "MongoDB connection is established." });
+//   } else {
+//     res.status(500).json({ message: "MongoDB connection is not established." });
+//   }
+// });
 
-if (isProduction) {
-  app.use(express.static("build"));
-}
+// if (isProduction) {
+//   app.use(express.static("build"));
+// }
 
 
 app.listen(PORT, () => {
